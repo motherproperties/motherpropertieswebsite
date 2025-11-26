@@ -21,7 +21,7 @@ interface ButtonProps {
 const variantClasses = {
   primary: 'bg-forest-500 text-white hover:bg-forest-600',
   secondary: 'bg-gold-500 text-white hover:bg-gold-600',
-  outline: 'border-2 border-forest-500 text-forest-500 hover:bg-forest-500 hover:text-white',
+  outline: 'border-2 border-cream-100 text-cream-100 hover:bg-cream-100 hover:text-forest-500',
 };
 
 const sizeClasses = {
