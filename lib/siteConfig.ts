@@ -6,7 +6,7 @@
 export const siteConfig = {
   brand: {
     name: 'Mother Properties',
-    tagline: 'Curated Farmlands & Nature-Led Living',
+    tagline: 'Green is the New Gold',
     website: 'www.motherproperties.net',
   },
   contact: {
@@ -26,9 +26,9 @@ export const siteConfig = {
     facebook: 'https://www.facebook.com/motherpropertiesblr',
   },
   seo: {
-    defaultTitle: 'Mother Properties – Curated Farmlands & Premium Land for Sale in Bangalore',
+    defaultTitle: 'Mother Properties – Green is the New Gold',
     defaultDescription:
-      'Mother Properties offers premium curated farmlands and nature-led lifestyle properties near Bangalore. Managed farmland investments with Coffee Prince microsite. Best farmlands for sale in Karnataka.',
+      'Mother Properties offers premium farmlands and nature-led lifestyle properties near Bangalore. Green is the New Gold - invest in sustainable real estate with managed farmlands. Coffee Prince microsite.',
     ogImage: '/images/hero.jpg',
     keywords: 'farmlands, farmland for sale, managed farmland, real estate, Bangalore, Karnataka, nature living, agricultural land, investment property, Coffee Prince',
     canonical: 'https://www.motherproperties.net',

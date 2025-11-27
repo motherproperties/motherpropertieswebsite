@@ -19,7 +19,7 @@ export const homeContent = {
       {
         image: '/images/hero.jpg',
         headline: 'NATURE IS THE NEW LUXURY',
-        subheadline: 'Discover curated farmlands where green meets gold',
+        subheadline: 'Green is the New Gold – Invest in Nature-Led Living',
         primaryCTA: { text: 'Explore Coffee Prince', href: '/coffeeprince' },
         secondaryCTA: { text: 'View All Projects', href: '/projects' },
       },
@@ -50,7 +50,7 @@ export const homeContent = {
     features: [
       {
         icon: 'Leaf',
-        title: 'Curated Farmlands & Managed Estates',
+        title: 'Green is the New Gold – Premium Farmlands',
         description:
           'Carefully selected properties in pristine locations with expert management and sustainable practices.',
       },
@@ -215,7 +215,7 @@ export const aboutContent = {
 export const projectsContent = {
   hero: {
     title: 'Our Projects',
-    subtitle: 'Curated farmlands and nature-centric developments',
+    subtitle: 'Green is the New Gold – Sustainable Real Estate Investments',
   },
   projects: [
     {

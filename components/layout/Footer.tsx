@@ -33,8 +33,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-gray-300 text-sm mb-4 max-w-md">
-              Creating curated managed farmlands and lifestyle-driven real estate in harmony with
-              nature.
+              Green is the New Gold – Invest in sustainable farmlands and nature-led real estate that creates meaningful environmental impact.
             </p>
             {/* Social Links */}
             <div className="flex space-x-4">

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   keywords: 'about Mother Properties, farmland company, real estate, mission, values, leadership, Bangalore',
   openGraph: {
     title: 'About Mother Properties – Our Story & Mission',
-    description: 'Discover Mother Properties mission to deliver premium curated farmlands and nature-led real estate investments.',
+    description: 'Discover Mother Properties mission to deliver premium farmlands and nature-led real estate investments. Green is the New Gold.',
     images: ['/images/director-suresh-robert.jpg'],
   },
 };
