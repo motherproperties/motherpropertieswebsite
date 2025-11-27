@@ -16,8 +16,8 @@ export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleOpenMenu = useCallback(() => {
-    setMobileMenuOpen(true);
+  const handleToggleMenu = useCallback(() => {
+    setMobileMenuOpen((prev) => !prev);
   }, []);
 
   const handleCloseMenu = useCallback(() => {
@@ -72,8 +72,9 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               className="md:hidden p-2 rounded-lg hover:bg-forest-700 transition-colors active:bg-forest-600"
-              onClick={handleOpenMenu}
-              aria-label="Open menu"
+              onClick={handleToggleMenu}
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
               type="button"
             >
               <Menu className="w-6 h-6 text-white" />
