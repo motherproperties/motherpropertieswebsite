@@ -5,7 +5,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react';
 import { siteConfig } from '@/lib/siteConfig';
 
 export function Footer() {
@@ -48,13 +48,13 @@ export function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={siteConfig.social.linkedin}
+                href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
-                aria-label="LinkedIn"
+                aria-label="Facebook"
               >
-                <Linkedin className="w-5 h-5" />
+                <Facebook className="w-5 h-5" />
               </a>
             </div>
           </div>

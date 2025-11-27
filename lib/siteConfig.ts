@@ -22,9 +22,8 @@ export const siteConfig = {
     },
   },
   social: {
-    instagram: 'https://instagram.com/motherproperties',
-    linkedin: 'https://linkedin.com/company/motherproperties',
-    facebook: 'https://facebook.com/motherproperties',
+    instagram: 'https://www.instagram.com/motherpropertiesblr/',
+    facebook: 'https://www.facebook.com/motherpropertiesblr',
   },
   seo: {
     defaultTitle: 'Mother Properties – Curated Farmlands & Premium Land for Sale in Bangalore',

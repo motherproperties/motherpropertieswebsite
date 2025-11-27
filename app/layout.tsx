@@ -27,7 +27,9 @@ export const metadata: Metadata = {
   description: siteConfig.seo.defaultDescription,
   keywords: siteConfig.seo.keywords,
   robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-  canonical: siteConfig.seo.canonical,
+  alternates: {
+    canonical: siteConfig.seo.canonical,
+  },
   openGraph: {
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.seo.defaultDescription,
@@ -42,16 +44,6 @@ export const metadata: Metadata = {
     description: siteConfig.seo.defaultDescription,
     images: [siteConfig.seo.ogImage],
   },
-  author: siteConfig.brand.name,
-  publisher: siteConfig.brand.name,
-  applicationName: siteConfig.brand.name,
-  referrer: 'origin-when-cross-origin',
-  formatDetection: {
-    email: false,
-    telephone: true,
-    address: false,
-  },
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
 };
 
 export default function RootLayout({
@@ -78,7 +70,6 @@ export default function RootLayout({
     },
     sameAs: [
       siteConfig.social.instagram,
-      siteConfig.social.linkedin,
       siteConfig.social.facebook,
     ],
     image: siteConfig.seo.ogImage,

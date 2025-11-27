@@ -3,7 +3,7 @@
  * Helps maintain consistent SEO best practices across the site
  */
 
-export const generateSchemaMarkup = (type: string, data: Record<string, any>) => {
+export const generateSchemaMarkup = (type: string, data: Record<string, unknown>) => {
   const baseSchema = {
     '@context': 'https://schema.org',
     '@type': type,
@@ -11,7 +11,7 @@ export const generateSchemaMarkup = (type: string, data: Record<string, any>) =>
   return { ...baseSchema, ...data };
 };
 
-export const createOrganizationSchema = (config: any) => {
+export const createOrganizationSchema = (config: Record<string, any>): Record<string, any> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -35,13 +35,12 @@ export const createOrganizationSchema = (config: any) => {
     },
     sameAs: [
       config.social.instagram,
-      config.social.linkedin,
       config.social.facebook,
     ],
   };
 };
 
-export const createLocalBusinessSchema = (config: any) => {
+export const createLocalBusinessSchema = (config: Record<string, any>): Record<string, any> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
