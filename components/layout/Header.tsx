@@ -18,7 +18,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-forest-800 shadow-lg">
+      <header className="sticky top-0 z-[51] bg-forest-800 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
@@ -63,9 +63,10 @@ export function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 rounded-lg hover:bg-forest-700"
+              className="md:hidden p-2 rounded-lg hover:bg-forest-700 transition-colors active:bg-forest-600"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open menu"
+              type="button"
             >
               <Menu className="w-6 h-6 text-white" />
             </button>

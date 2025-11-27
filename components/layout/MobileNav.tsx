@@ -45,7 +45,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-50 md:hidden"
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
             onClick={onClose}
           />
 
@@ -55,7 +55,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-forest-900 z-50 md:hidden shadow-2xl"
+            className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-forest-900 z-40 md:hidden shadow-2xl"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
@@ -68,8 +68,9 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-lg hover:bg-forest-800"
+                  className="p-2 rounded-lg hover:bg-forest-800 transition-colors active:bg-forest-700"
                   aria-label="Close menu"
+                  type="button"
                 >
                   <X className="w-6 h-6 text-white" />
                 </button>
