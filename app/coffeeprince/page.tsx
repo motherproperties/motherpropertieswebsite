@@ -19,9 +19,15 @@ import { siteConfig } from '@/lib/siteConfig';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Coffee Prince – Managed Coffee Farmlands by Mother Properties',
+  title: 'Coffee Prince – Premium Managed Coffee Farmlands in Sakleshpur, Western Ghats',
   description:
-    'Titled, curated coffee farmlands in the Sakleshpur region of the Western Ghats. Managed farmland with resort concept.',
+    'Coffee Prince offers titled, curated managed coffee farmlands in Sakleshpur, Western Ghats. Investment-ready agricultural property with resort amenities. Premium farmland for sale near Bangalore.',
+  keywords: 'coffee farmland, Sakleshpur, Western Ghats, managed farmland, agricultural investment, farmland for sale, coffee plantation, lifestyle property',
+  openGraph: {
+    title: 'Coffee Prince – Managed Coffee Farmlands in Western Ghats',
+    description: 'Titled coffee farmlands with resort concept in Sakleshpur. Premium managed farmland investment.',
+    images: ['/images/Coffee-plantation.jpg'],
+  },
 };
 
 export default function CoffeePrincePage() {

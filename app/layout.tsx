@@ -25,13 +25,33 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.motherproperties.net'),
   title: siteConfig.seo.defaultTitle,
   description: siteConfig.seo.defaultDescription,
+  keywords: siteConfig.seo.keywords,
+  robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+  canonical: siteConfig.seo.canonical,
   openGraph: {
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.seo.defaultDescription,
     siteName: siteConfig.brand.name,
     images: [siteConfig.seo.ogImage],
     type: 'website',
+    url: siteConfig.seo.canonical,
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.seo.defaultDescription,
+    images: [siteConfig.seo.ogImage],
+  },
+  author: siteConfig.brand.name,
+  publisher: siteConfig.brand.name,
+  applicationName: siteConfig.brand.name,
+  referrer: 'origin-when-cross-origin',
+  formatDetection: {
+    email: false,
+    telephone: true,
+    address: false,
+  },
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
 };
 
 export default function RootLayout({
@@ -39,8 +59,39 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const schemaMarkup = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    '@id': 'https://www.motherproperties.net',
+    name: siteConfig.brand.name,
+    description: siteConfig.seo.defaultDescription,
+    url: 'https://www.motherproperties.net',
+    telephone: siteConfig.contact.phones[0],
+    email: siteConfig.contact.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}`,
+      addressLocality: siteConfig.contact.address.city,
+      addressRegion: siteConfig.contact.address.state,
+      postalCode: siteConfig.contact.address.pincode,
+      addressCountry: siteConfig.contact.address.country,
+    },
+    sameAs: [
+      siteConfig.social.instagram,
+      siteConfig.social.linkedin,
+      siteConfig.social.facebook,
+    ],
+    image: siteConfig.seo.ogImage,
+  };
+
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+        />
+      </head>
       <body className="font-sans">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-forest-500 focus:text-white focus:p-4 focus:rounded">
           Skip to main content

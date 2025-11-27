@@ -10,8 +10,14 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 import { siteConfig } from '@/lib/siteConfig';
 
 export const metadata: Metadata = {
-  title: 'Contact Us – Mother Properties',
-  description: 'Get in touch with Mother Properties for inquiries about our farmland projects.',
+  title: 'Contact Mother Properties – Farmland Inquiries & Support',
+  description: 'Contact Mother Properties for inquiries about premium farmland investments, Coffee Prince project, and real estate opportunities. Reach out to our Bangalore office.',
+  keywords: 'contact Mother Properties, farmland inquiry, real estate contact, Bangalore office, customer support',
+  openGraph: {
+    title: 'Contact Mother Properties',
+    description: 'Get in touch with Mother Properties for farmland investment inquiries and project information.',
+    images: ['/images/hero.jpg'],
+  },
 };
 
 export default function ContactPage() {

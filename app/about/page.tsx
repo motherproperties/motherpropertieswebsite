@@ -10,9 +10,15 @@ import { DirectorMessage } from '@/components/shared/DirectorMessage';
 import { aboutContent } from '@/lib/copy/motherProperties';
 
 export const metadata: Metadata = {
-  title: 'About Us – Mother Properties',
+  title: 'About Mother Properties – Premium Farmland Real Estate Company',
   description:
-    'Learn about Mother Properties, our vision, values, and the team behind curated managed farmlands.',
+    'Learn about Mother Properties, our mission to provide curated managed farmlands, company values, and leadership team. Trusted farmland investment partner since inception.',
+  keywords: 'about Mother Properties, farmland company, real estate, mission, values, leadership, Bangalore',
+  openGraph: {
+    title: 'About Mother Properties – Our Story & Mission',
+    description: 'Discover Mother Properties mission to deliver premium curated farmlands and nature-led real estate investments.',
+    images: ['/images/director-suresh-robert.jpg'],
+  },
 };
 
 export default function AboutPage() {

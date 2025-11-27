@@ -2,6 +2,7 @@
  * Homepage - Mother Properties main landing page
  */
 
+import type { Metadata } from 'next';
 import { HeroCarousel } from '@/components/home/HeroCarousel';
 import { FeatureGrid } from '@/components/home/FeatureGrid';
 import { Timeline } from '@/components/home/Timeline';
@@ -11,6 +12,17 @@ import { FAQAccordion } from '@/components/shared/FAQAccordion';
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { homeContent } from '@/lib/copy/motherProperties';
+
+export const metadata: Metadata = {
+  title: 'Mother Properties – Premium Farmlands & Nature-Led Living in Bangalore',
+  description: 'Discover curated managed farmlands and premium real estate properties near Bangalore. Mother Properties offers verified farmland investments with Coffee Prince project. Best farmlands for sale in Karnataka.',
+  keywords: 'farmlands for sale, managed farmland, Bangalore real estate, farmland investment, agricultural land, Coffee Prince, nature living, lifestyle property',
+  openGraph: {
+    title: 'Mother Properties – Premium Farmlands & Nature-Led Living',
+    description: 'Curated managed farmlands and verified real estate investments in harmony with nature.',
+    images: ['/images/hero.jpg'],
+  },
+};
 
 export default function HomePage() {
   return (

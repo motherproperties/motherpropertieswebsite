@@ -10,8 +10,14 @@ import { Button } from '@/components/ui/Button';
 import { projectsContent } from '@/lib/copy/motherProperties';
 
 export const metadata: Metadata = {
-  title: 'Our Projects – Mother Properties',
-  description: 'Explore our curated farmland projects and nature-centric developments.',
+  title: 'Projects – Mother Properties Farmlands & Real Estate Developments',
+  description: 'Explore Mother Properties curated farmland projects and nature-led developments. Coffee Prince and more verified real estate investments near Bangalore.',
+  keywords: 'real estate projects, farmland projects, Coffee Prince, agricultural development, Bangalore properties, lifestyle projects',
+  openGraph: {
+    title: 'Our Projects – Mother Properties',
+    description: 'Curated farmland and nature-led real estate developments by Mother Properties.',
+    images: ['/images/lifestyle-nature.jpg'],
+  },
 };
 
 export default function ProjectsPage() {

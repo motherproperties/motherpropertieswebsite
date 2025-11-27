@@ -16,18 +16,23 @@ export const siteConfig = {
       line1: '#1831, 1st Floor, 41st Cross, 22nd Main',
       line2: 'Jayanagar 9th Block, Near Jain College',
       city: 'Bangalore',
+      state: 'Karnataka',
       pincode: '560 069',
+      country: 'India',
     },
   },
   social: {
     instagram: 'https://instagram.com/motherproperties',
     linkedin: 'https://linkedin.com/company/motherproperties',
+    facebook: 'https://facebook.com/motherproperties',
   },
   seo: {
-    defaultTitle: 'Mother Properties – Curated Farmlands & Nature-Led Living',
+    defaultTitle: 'Mother Properties – Curated Farmlands & Premium Land for Sale in Bangalore',
     defaultDescription:
-      'Mother Properties is a trusted brand creating curated managed farmlands and lifestyle-driven real estate in harmony with nature.',
-    ogImage: '/og-motherproperties.png',
+      'Mother Properties offers premium curated farmlands and nature-led lifestyle properties near Bangalore. Managed farmland investments with Coffee Prince microsite. Best farmlands for sale in Karnataka.',
+    ogImage: '/images/hero.jpg',
+    keywords: 'farmlands, farmland for sale, managed farmland, real estate, Bangalore, Karnataka, nature living, agricultural land, investment property, Coffee Prince',
+    canonical: 'https://www.motherproperties.net',
   },
   navigation: [
     { name: 'Home', href: '/' },
