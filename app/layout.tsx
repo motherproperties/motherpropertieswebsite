@@ -27,6 +27,10 @@ export const metadata: Metadata = {
   description: siteConfig.seo.defaultDescription,
   keywords: siteConfig.seo.keywords,
   robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+  icons: {
+    icon: '/images/motherproperties-logo (2).png',
+    apple: '/images/motherproperties-logo (2).png',
+  },
   alternates: {
     canonical: siteConfig.seo.canonical,
   },

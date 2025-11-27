@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 // Email configuration
 const RECIPIENT_EMAIL = 'motherpropertiesblr@gmail.com';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface ContactFormData {
   name: string;
@@ -91,18 +93,19 @@ async function sendEmailNotification(
   subject: string,
   body: string
 ): Promise<void> {
-  // This is a placeholder for email sending
-  // In production, integrate with:
-  // - SendGrid API
-  // - AWS SES
-  // - Resend
-  // - Mailgun
-  // - etc.
-  
-  // For now, we'll just log it
-  console.log(`Email to: ${to}`);
-  console.log(`Subject: ${subject}`);
-  console.log(`Body: ${body}`);
+  try {
+    const result = await resend.emails.send({
+      from: 'Mother Properties <onboarding@resend.dev>',
+      to,
+      subject,
+      text: body,
+      html: body.replace(/\n/g, '<br>'),
+    });
+    console.log(`Email sent successfully to ${to}:`, result);
+  } catch (error) {
+    console.error(`Failed to send email to ${to}:`, error);
+    throw error;
+  }
 }
 
 function generateUserConfirmationEmail(name: string): string {
