@@ -4,7 +4,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu } from 'lucide-react';
@@ -15,6 +15,14 @@ import { MobileNav } from './MobileNav';
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleOpenMenu = useCallback(() => {
+    setMobileMenuOpen(true);
+  }, []);
+
+  const handleCloseMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
 
   return (
     <>
@@ -64,7 +72,7 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               className="md:hidden p-2 rounded-lg hover:bg-forest-700 transition-colors active:bg-forest-600"
-              onClick={() => setMobileMenuOpen(true)}
+              onClick={handleOpenMenu}
               aria-label="Open menu"
               type="button"
             >
@@ -75,7 +83,7 @@ export function Header() {
       </header>
 
       {/* Mobile Navigation */}
-      <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileNav isOpen={mobileMenuOpen} onClose={handleCloseMenu} />
     </>
   );
 }

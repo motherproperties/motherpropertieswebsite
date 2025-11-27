@@ -19,10 +19,12 @@ interface MobileNavProps {
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const pathname = usePathname();
 
-  // Close menu on route change
+  // Close menu when a navigation link is clicked (on route change)
   useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
+    if (isOpen) {
+      onClose();
+    }
+  }, [pathname]); // Only depend on pathname, not onClose
 
   // Trap focus and prevent body scroll when open
   useEffect(() => {
