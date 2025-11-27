@@ -159,24 +159,28 @@ export const coffeePrinceContent = {
       subtitle: 'Land Acquisition & Plantation Setup',
       description:
         'Securing titled land and establishing coffee plantations with proper soil preparation and initial planting.',
+      status: 'completed',
     },
     {
       title: 'Phase 2',
       subtitle: 'Infrastructure Development',
       description:
         'Building roads, water systems, power supply, and internal amenity planning to support the estate.',
+      status: 'in-progress',
     },
     {
       title: 'Phase 3',
       subtitle: 'Resort & Villa Program Rollout',
       description:
         'Developing the central eco-resort and enabling villa construction for owners who wish to build.',
+      status: 'in-progress',
     },
     {
       title: 'Phase 4',
       subtitle: 'Community Activities & Experience Expansion',
       description:
         'Launching community programs, nature experiences, and additional amenities for owners and guests.',
+      status: 'planning',
     },
   ] as Phase[],
   layoutAndAmenities: {

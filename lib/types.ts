@@ -18,6 +18,7 @@ export interface Phase {
   title: string;
   subtitle?: string;
   description: string;
+  status?: 'completed' | 'in-progress' | 'planning';
 }
 
 export interface GalleryImage {
