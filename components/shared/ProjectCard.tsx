@@ -64,9 +64,11 @@ export function ProjectCard({ project, featured = false }: ProjectCardProps) {
         </div>
 
         {/* Button */}
-        <Button href={`/${project.slug}`} variant="primary">
-          View Project
-        </Button>
+        {project.logo && (
+          <Button href={`/${project.slug}`} variant="primary">
+            View Project
+          </Button>
+        )}
       </div>
     </motion.div>
   );
