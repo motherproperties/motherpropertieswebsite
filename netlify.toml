@@ -1,9 +1,9 @@
 [build]
   command = "npm run build"
-  publish = ".next/static"
+  publish = ".next"
   functions = ".next/server"
 
 [context.production]
   command = "npm run build"
-  publish = ".next/static"
+  publish = ".next"
   functions = ".next/server"
