@@ -1,7 +1,7 @@
 [build]
   command = "npm run build"
-  publish = "."
+  publish = ".next"
 
 [context.production]
   command = "npm run build"
-  publish = "."
+  publish = ".next"
