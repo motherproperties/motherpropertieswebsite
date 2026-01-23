@@ -39,7 +39,7 @@ export function Button({
   type = 'button',
   className = '',
 }: ButtonProps) {
-  const baseClasses = `inline-block font-medium rounded-2xl transition-colors ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const baseClasses = `inline-block font-medium rounded-2xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-500 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
   if (href) {
     return (

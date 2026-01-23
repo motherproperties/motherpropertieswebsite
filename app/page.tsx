@@ -12,15 +12,17 @@ import { FAQAccordion } from '@/components/shared/FAQAccordion';
 import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { homeContent } from '@/lib/copy/motherProperties';
+import { siteConfig } from '@/lib/siteConfig';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
-  title: 'Mother Properties – Premium Farmlands & Nature-Led Living in Bangalore',
-  description: 'Discover curated managed farmlands and premium real estate properties near Bangalore. Mother Properties offers verified farmland investments with Coffee Prince project. Best farmlands for sale in Karnataka.',
-  keywords: 'farmlands for sale, managed farmland, Bangalore real estate, farmland investment, agricultural land, Coffee Prince, nature living, lifestyle property',
+  title: siteConfig.seo.defaultTitle,
+  description: siteConfig.seo.defaultDescription,
+  keywords: siteConfig.seo.keywords,
   openGraph: {
-    title: 'Mother Properties – Premium Farmlands & Nature-Led Living',
-    description: 'Curated managed farmlands and verified real estate investments in harmony with nature.',
-    images: ['/images/hero.jpg'],
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.seo.defaultDescription,
+    images: [siteConfig.seo.ogImage],
   },
 };
 
@@ -33,13 +35,19 @@ export default function HomePage() {
       {/* About Mother Properties */}
       <Section background="white">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-            {homeContent.about.title}
-          </h2>
-          <p className="text-lg text-gray-600 mb-6">{homeContent.about.summary}</p>
-          <Button href={homeContent.about.cta.href} variant="primary">
-            {homeContent.about.cta.text}
-          </Button>
+          <Reveal width="100%" direction="up">
+            <h2 className="text-4xl md:text-5xl font-display font-medium text-gray-900 mb-6 tracking-tight">
+              {homeContent.about.title}
+            </h2>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <p className="text-xl md:text-2xl text-gray-600 mb-10 font-light leading-relaxed">{homeContent.about.summary}</p>
+          </Reveal>
+          <Reveal width="100%" delay={0.3}>
+            <Button href={homeContent.about.cta.href} variant="primary" size="lg" className="shadow-xl focus:ring-forest-500">
+              {homeContent.about.cta.text}
+            </Button>
+          </Reveal>
         </div>
       </Section>
 
@@ -55,13 +63,17 @@ export default function HomePage() {
 
       {/* Featured Project: Coffee Prince */}
       <Section background="white">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-            Featured Project
-          </h2>
-          <p className="text-lg text-gray-600">
-            Discover our flagship managed coffee farmland in the Western Ghats
-          </p>
+        <div className="text-center mb-16">
+          <Reveal width="100%">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+              Featured Project
+            </h2>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <p className="text-xl text-gray-600 font-light">
+              Discover our flagship managed coffee farmland in the Western Ghats
+            </p>
+          </Reveal>
         </div>
         <div className="max-w-2xl mx-auto">
           <ProjectCard
@@ -82,7 +94,7 @@ export default function HomePage() {
       {/* How It Works */}
       <Section background="green">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
             {homeContent.howItWorks.title}
           </h2>
         </div>

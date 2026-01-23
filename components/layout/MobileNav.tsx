@@ -4,7 +4,7 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
@@ -18,18 +18,26 @@ interface MobileNavProps {
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Close menu when a navigation link is clicked (on route change)
   useEffect(() => {
     if (isOpen) {
       onClose();
     }
-  }, [pathname]); // Only depend on pathname, not onClose
+  }, [pathname]); // Only depend on pathname
 
   // Trap focus and prevent body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      // Focus first element when opened
+      const focusableElements = menuRef.current?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements && focusableElements.length > 0) {
+        (focusableElements[0] as HTMLElement).focus();
+      }
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -37,6 +45,42 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  // Handle Tab key for focus trapping
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+
+      if (e.key === 'Escape') {
+        onClose();
+      }
+
+      if (e.key === 'Tab') {
+        const focusableElements = menuRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            lastElement.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -53,6 +97,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
           {/* Menu Panel */}
           <motion.div
+            ref={menuRef}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -87,11 +132,10 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                       <li key={item.href}>
                         <Link
                           href={item.href}
-                          className={`block py-3 px-4 rounded-lg text-lg font-medium transition-colors ${
-                            isActive
+                          className={`block py-3 px-4 rounded-lg text-lg font-medium transition-colors ${isActive
                               ? 'bg-gold-500 text-white'
                               : 'text-cream-100 hover:bg-forest-800'
-                          }`}
+                            }`}
                         >
                           {item.name}
                         </Link>

@@ -1,9 +1,9 @@
 [build]
   command = "npm run build"
-  publish = ".next"
-  functions = ".next/server"
+  # publish = ".next" # Commented out to allow Netlify Next.js Runtime to auto-configure
+  # functions = ".next/server"
 
 [context.production]
   command = "npm run build"
-  publish = ".next"
-  functions = ".next/server"
+  # publish = ".next"
+  # functions = ".next/server"

@@ -17,6 +17,7 @@ import { coffeePrinceContent } from '@/lib/copy/coffeePrince';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { siteConfig } from '@/lib/siteConfig';
 import Image from 'next/image';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'Coffee Prince – Premium Managed Coffee Farmlands in Sakleshpur, Western Ghats',
@@ -34,14 +35,21 @@ export default function CoffeePrincePage() {
   return (
     <>
       {/* Hero */}
-      <div 
-        className="relative py-20 md:py-32 bg-gradient-to-br from-forest-600 to-coffee-700 bg-cover bg-center"
-        style={{ backgroundImage: `url(${coffeePrinceContent.hero.backgroundImage})` }}
-      >
-        {/* Background overlay - Darkened for better text visibility */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/70" />
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* Hero */}
+      <div className="relative py-20 md:py-32 overflow-hidden bg-forest-900">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={coffeePrinceContent.hero.backgroundImage}
+            alt="Coffee Prince Estate"
+            fill
+            className="object-cover"
+            priority
+            quality={90}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/70" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="w-28 h-28 bg-cream-100 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg">
             <Image
               src="/images/coffee_prince_logo_gold_transparent_4000.png"
@@ -76,18 +84,24 @@ export default function CoffeePrincePage() {
 
       {/* Project Snapshot */}
       <Section background="white">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-            {coffeePrinceContent.snapshot.title}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">{coffeePrinceContent.snapshot.intro}</p>
+        <div className="text-center mb-16">
+          <Reveal width="100%">
+            <h2 className="text-4xl md:text-5xl font-display font-medium text-gray-900 mb-6">
+              {coffeePrinceContent.snapshot.title}
+            </h2>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">{coffeePrinceContent.snapshot.intro}</p>
+          </Reveal>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {coffeePrinceContent.snapshot.blocks.map((block, index) => (
-            <div key={index} className="bg-cream-50 p-6 rounded-2xl">
-              <h3 className="text-xl font-semibold text-forest-600 mb-3">{block.title}</h3>
-              <p className="text-gray-700">{block.description}</p>
-            </div>
+            <Reveal key={index} width="100%" delay={index * 0.1}>
+              <div className="bg-cream-50 p-8 rounded-3xl border border-cream-200 hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-2xl font-display font-semibold text-forest-700 mb-4">{block.title}</h3>
+                <p className="text-gray-700 text-lg leading-relaxed">{block.description}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -95,10 +109,16 @@ export default function CoffeePrincePage() {
       {/* Director Angle */}
       <Section background="cream">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-lg text-gray-700 mb-6">{coffeePrinceContent.directorAngle.summary}</p>
-          <Button href={coffeePrinceContent.directorAngle.cta.href} variant="primary">
-            {coffeePrinceContent.directorAngle.cta.text}
-          </Button>
+          <Reveal width="100%">
+            <p className="text-2xl md:text-3xl font-display italic text-gray-800 mb-10 leading-relaxed">
+              "{coffeePrinceContent.directorAngle.summary}"
+            </p>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <Button href={coffeePrinceContent.directorAngle.cta.href} variant="primary" size="lg" className="shadow-xl">
+              {coffeePrinceContent.directorAngle.cta.text}
+            </Button>
+          </Reveal>
         </div>
       </Section>
 
@@ -120,10 +140,12 @@ export default function CoffeePrincePage() {
 
       {/* Estate Highlights */}
       <Section background="green">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
-            {coffeePrinceContent.estateHighlights.title}
-          </h2>
+        <div className="text-center mb-16">
+          <Reveal width="100%">
+            <h2 className="text-3xl md:text-4xl font-display font-medium text-white tracking-wide">
+              {coffeePrinceContent.estateHighlights.title}
+            </h2>
+          </Reveal>
         </div>
         <FeatureGrid features={coffeePrinceContent.estateHighlights.highlights} columns={3} />
       </Section>
@@ -191,11 +213,15 @@ export default function CoffeePrincePage() {
 
       {/* Layout & Amenities */}
       <Section background="green">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-            Layout & Amenities
-          </h2>
-          <p className="text-sm text-gray-600 italic">{coffeePrinceContent.layoutAndAmenities.layoutNote}</p>
+        <div className="text-center mb-16">
+          <Reveal width="100%">
+            <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-4 tracking-wide">
+              Layout & Amenities
+            </h2>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <p className="text-white/80 italic font-light tracking-wider">{coffeePrinceContent.layoutAndAmenities.layoutNote}</p>
+          </Reveal>
         </div>
         <AmenitiesGrid
           amenities={coffeePrinceContent.layoutAndAmenities.amenities}

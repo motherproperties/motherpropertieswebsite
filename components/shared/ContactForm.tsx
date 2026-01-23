@@ -19,6 +19,9 @@ interface FormData {
   message: string;
 }
 
+const inputBaseClasses = "w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-forest-500 transition-colors outline-none text-gray-900 placeholder-transparent peer";
+const labelClasses = "absolute left-4 top-4 text-gray-500 transition-all duration-200 -translate-y-3 scale-75 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 pointer-events-none bg-transparent";
+
 interface FormErrors {
   name?: string;
   email?: string;
@@ -140,97 +143,93 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Name */}
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-          Name *
-        </label>
+      <div className="relative">
         <input
           type="text"
           id="name"
           name="name"
+          placeholder="Name"
           value={formData.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent ${
-            errors.name ? 'border-red-500' : 'border-gray-300'
-          }`}
+          className={`${inputBaseClasses} ${errors.name ? 'border-red-300 bg-red-50' : ''}`}
         />
-        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+        <label htmlFor="name" className={labelClasses}>
+          Your Name *
+        </label>
+        {errors.name && <p className="absolute -bottom-5 left-1 text-xs text-red-500 font-medium">{errors.name}</p>}
       </div>
 
       {/* Email */}
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-          Email *
-        </label>
+      <div className="relative">
         <input
           type="email"
           id="email"
           name="email"
+          placeholder="Email"
           value={formData.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent ${
-            errors.email ? 'border-red-500' : 'border-gray-300'
-          }`}
+          className={`${inputBaseClasses} ${errors.email ? 'border-red-300 bg-red-50' : ''}`}
         />
-        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+        <label htmlFor="email" className={labelClasses}>
+          Email Address *
+        </label>
+        {errors.email && <p className="absolute -bottom-5 left-1 text-xs text-red-500 font-medium">{errors.email}</p>}
       </div>
 
       {/* Phone */}
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-          Phone *
-        </label>
+      <div className="relative">
         <input
           type="tel"
           id="phone"
           name="phone"
+          placeholder="Phone"
           value={formData.phone}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent ${
-            errors.phone ? 'border-red-500' : 'border-gray-300'
-          }`}
+          className={`${inputBaseClasses} ${errors.phone ? 'border-red-300 bg-red-50' : ''}`}
         />
-        {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
+        <label htmlFor="phone" className={labelClasses}>
+          Phone Number *
+        </label>
+        {errors.phone && <p className="absolute -bottom-5 left-1 text-xs text-red-500 font-medium">{errors.phone}</p>}
       </div>
 
       {/* Interested In */}
-      <div>
-        <label htmlFor="interestedIn" className="block text-sm font-medium text-gray-700 mb-2">
-          Interested In
-        </label>
+      <div className="relative">
         <select
           id="interestedIn"
           name="interestedIn"
           value={formData.interestedIn}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent"
+          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-forest-500 transition-colors outline-none text-gray-900 appearance-none pt-6 pb-2"
         >
           <option value="general">Mother Properties (General)</option>
           <option value="coffeeprince">Coffee Prince</option>
           <option value="other">Other</option>
         </select>
+        <label htmlFor="interestedIn" className="absolute left-4 top-2 text-xs text-gray-500 font-medium uppercase tracking-wider">
+          Interested In
+        </label>
       </div>
 
       {/* Message */}
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-          Message *
-        </label>
+      <div className="relative">
         <textarea
           id="message"
           name="message"
           rows={5}
+          placeholder="Message"
           value={formData.message}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent ${
-            errors.message ? 'border-red-500' : 'border-gray-300'
-          }`}
+          className={`${inputBaseClasses} ${errors.message ? 'border-red-300 bg-red-50' : ''}`}
         />
-        {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+        <label htmlFor="message" className={labelClasses}>
+          How can we help? *
+        </label>
+        {errors.message && <p className="absolute -bottom-5 left-1 text-xs text-red-500 font-medium">{errors.message}</p>}
       </div>
 
       {/* Submit Button */}

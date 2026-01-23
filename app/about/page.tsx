@@ -8,6 +8,7 @@ import { Section } from '@/components/ui/Section';
 import { FeatureGrid } from '@/components/home/FeatureGrid';
 import { DirectorMessage } from '@/components/shared/DirectorMessage';
 import { aboutContent } from '@/lib/copy/motherProperties';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'About Mother Properties – Premium Farmland Real Estate Company',
@@ -60,10 +61,14 @@ export default function AboutPage() {
       {/* Happy Club */}
       <Section background="green">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
-            {aboutContent.happyClub.title}
-          </h2>
-          <p className="text-lg text-gray-700">{aboutContent.happyClub.description}</p>
+          <Reveal width="100%">
+            <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-4 tracking-wide">
+              {aboutContent.happyClub.title}
+            </h2>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <p className="text-xl text-cream-100/90 font-light leading-relaxed">{aboutContent.happyClub.description}</p>
+          </Reveal>
         </div>
       </Section>
     </>

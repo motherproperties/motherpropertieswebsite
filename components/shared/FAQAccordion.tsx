@@ -37,7 +37,7 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
             <button
               onClick={() => toggleItem(index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-full px-6 py-4 flex justify-between items-center text-left hover:bg-gray-50 transition-colors"
+              className="w-full px-6 py-4 flex justify-between items-center text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-forest-500 rounded-t-2xl"
               aria-expanded={isOpen}
               role="button"
             >

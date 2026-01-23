@@ -8,6 +8,7 @@ import { Section } from '@/components/ui/Section';
 import { ProjectCard } from '@/components/shared/ProjectCard';
 import { Button } from '@/components/ui/Button';
 import { projectsContent } from '@/lib/copy/motherProperties';
+import { Reveal } from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'Projects – Mother Properties Farmlands & Real Estate Developments',
@@ -28,8 +29,10 @@ export default function ProjectsPage() {
       {/* Projects Grid */}
       <Section background="white">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projectsContent.projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} featured={project.badge === 'Featured'} />
+          {projectsContent.projects.map((project, index) => (
+            <Reveal key={project.slug} width="100%" delay={index * 0.1}>
+              <ProjectCard project={project} featured={project.badge === 'Featured'} />
+            </Reveal>
           ))}
         </div>
       </Section>
@@ -37,13 +40,19 @@ export default function ProjectsPage() {
       {/* CTA */}
       <Section background="cream">
         <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-4">
-            {projectsContent.cta.title}
-          </h2>
-          <p className="text-lg text-gray-600 mb-6">{projectsContent.cta.description}</p>
-          <Button href={projectsContent.cta.button.href} variant="primary" size="lg">
-            {projectsContent.cta.button.text}
-          </Button>
+          <Reveal width="100%">
+            <h2 className="text-3xl md:text-4xl font-display font-medium text-gray-900 mb-6">
+              {projectsContent.cta.title}
+            </h2>
+          </Reveal>
+          <Reveal width="100%" delay={0.2}>
+            <p className="text-xl text-gray-600 mb-10 font-light">{projectsContent.cta.description}</p>
+          </Reveal>
+          <Reveal width="100%" delay={0.3}>
+            <Button href={projectsContent.cta.button.href} variant="primary" size="lg" className="shadow-lg">
+              {projectsContent.cta.button.text}
+            </Button>
+          </Reveal>
         </div>
       </Section>
     </>

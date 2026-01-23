@@ -9,6 +9,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { HeroSlide } from '@/lib/types';
+import Image from 'next/image';
 
 interface HeroCarouselProps {
   slides: HeroSlide[];
@@ -53,7 +54,7 @@ export function HeroCarousel({ slides, autoAdvanceInterval = 6500 }: HeroCarouse
 
   return (
     <div
-      className="relative h-[600px] md:h-[700px] overflow-hidden"
+      className="relative h-[600px] md:h-[700px] overflow-hidden bg-gray-900"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       role="region"
@@ -69,38 +70,65 @@ export function HeroCarousel({ slides, autoAdvanceInterval = 6500 }: HeroCarouse
           transition={{ duration: 0.5 }}
           className="absolute inset-0"
         >
-          {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide.image})` }}
-          />
-          {/* Gradient Overlay - Darker for better text and button visibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/55 to-black/75" />
+          {/* Background Image with Ken Burns Effect */}
+          <div className="absolute inset-0 overflow-hidden">
+            <motion.div
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 10, ease: "linear" }}
+              className="relative w-full h-full"
+            >
+              <Image
+                src={slide.image}
+                alt={slide.headline}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                priority={currentSlide === 0}
+                quality={90}
+              />
+            </motion.div>
+          </div>
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/55 to-black/75 z-10" />
 
           {/* Content */}
-          <div className="relative h-full flex items-center">
+          <div className="relative z-20 h-full flex items-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="max-w-3xl"
-              >
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-4">
+              <div className="max-w-4xl">
+                <motion.h1
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+                  className="text-5xl md:text-7xl lg:text-8xl font-display font-medium text-white mb-6 leading-tight drop-shadow-lg"
+                >
                   {slide.headline}
-                </h1>
-                <p className="text-xl md:text-2xl text-white/90 mb-8">{slide.subheadline}</p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button href={slide.primaryCTA.href} variant="primary" size="lg" className="shadow-lg">
+                </motion.h1>
+                <motion.p
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                  className="text-xl md:text-3xl text-cream-50 mb-10 font-light max-w-2xl drop-shadow-md"
+                >
+                  {slide.subheadline}
+                </motion.p>
+                <motion.div
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.7, duration: 0.8, ease: "easeOut" }}
+                  className="flex flex-col sm:flex-row gap-5"
+                >
+                  <Button href={slide.primaryCTA.href} variant="primary" size="lg" className="shadow-xl ring-2 ring-forest-400/50">
                     {slide.primaryCTA.text}
                   </Button>
                   {slide.secondaryCTA && (
-                    <Button href={slide.secondaryCTA.href} variant="outline" size="lg" className="shadow-lg border-2 border-white bg-white/15 hover:bg-white/25 text-white font-semibold">
+                    <Button href={slide.secondaryCTA.href} variant="outline" size="lg" className="shadow-xl backdrop-blur-sm bg-white/10 hover:bg-white/20 border-white text-white">
                       {slide.secondaryCTA.text}
                     </Button>
                   )}
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -111,31 +139,30 @@ export function HeroCarousel({ slides, autoAdvanceInterval = 6500 }: HeroCarouse
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-sm transition-colors"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-sm transition-colors group"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-6 h-6 text-white" />
+            <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-sm transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-sm transition-colors group"
             aria-label="Next slide"
           >
-            <ChevronRight className="w-6 h-6 text-white" />
+            <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </button>
         </>
       )}
 
       {/* Dots Indicator */}
       {slides.length > 1 && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex space-x-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75'
-              }`}
+              className={`h-1.5 rounded-full transition-all duration-500 ease-in-out ${index === currentSlide ? 'bg-gold-400 w-12' : 'bg-white/30 w-6 hover:bg-white/50'
+                }`}
               aria-label={`Go to slide ${index + 1}`}
               aria-current={index === currentSlide}
             />

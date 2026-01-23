@@ -135,7 +135,18 @@ export function Footer() {
             <p className="text-gray-400 text-sm">
               © {currentYear} {siteConfig.brand.name}. All rights reserved.
             </p>
-            <p className="text-gray-400 text-sm">{siteConfig.brand.website}</p>
+            <div className="flex items-center space-x-6">
+              <p className="text-gray-400 text-sm">{siteConfig.brand.website}</p>
+              <a
+                href="https://samarthv.me"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-gray-500 hover:text-gold-400 transition-colors flex items-center gap-1 group"
+              >
+                <span>Designed by</span>
+                <span className="font-semibold text-gray-400 group-hover:text-gold-400 transition-colors">Samarth Viswanath</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
