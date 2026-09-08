@@ -12,13 +12,15 @@ import { Reveal } from '@/components/ui/Reveal';
 
 export const metadata: Metadata = {
   title: 'Projects – Mother Properties Farmlands & Real Estate Developments',
-  description: 'Explore Mother Properties curated farmland projects and nature-led developments. Coffee Prince and more verified real estate investments near Bangalore.',
+  description: 'Explore published Mother Properties farmland projects and request current facts, documentation and visit details.',
   keywords: 'real estate projects, farmland projects, Coffee Prince, agricultural development, Bangalore properties, lifestyle projects',
   openGraph: {
     title: 'Our Projects – Mother Properties',
     description: 'Curated farmland and nature-led real estate developments by Mother Properties.',
+    url: '/projects/',
     images: ['/images/lifestyle-nature.jpg'],
   },
+  alternates: { canonical: '/projects/' },
 };
 
 export default function ProjectsPage() {

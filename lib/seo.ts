@@ -3,6 +3,11 @@
  * Helps maintain consistent SEO best practices across the site
  */
 
+import { siteConfig } from './siteConfig';
+import type { FAQItem } from './types';
+
+// ─── Schema Generators ──────────────────────────────────────────────────────
+
 export const generateSchemaMarkup = (type: string, data: Record<string, unknown>) => {
   const baseSchema = {
     '@context': 'https://schema.org',
@@ -11,57 +16,83 @@ export const generateSchemaMarkup = (type: string, data: Record<string, unknown>
   return { ...baseSchema, ...data };
 };
 
-export const createOrganizationSchema = (config: Record<string, any>): Record<string, any> => {
+export const createOrganizationSchema = (): Record<string, unknown> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: config.brand.name,
+    name: siteConfig.brand.name,
     url: 'https://www.motherproperties.net',
     logo: 'https://www.motherproperties.net/images/motherproperties-logo (2).png',
-    description: config.seo.defaultDescription,
+    description: siteConfig.seo.defaultDescription,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: `${config.contact.address.line1}, ${config.contact.address.line2}`,
-      addressLocality: config.contact.address.city,
-      addressRegion: config.contact.address.state,
-      postalCode: config.contact.address.pincode,
-      addressCountry: config.contact.address.country,
+      streetAddress: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}`,
+      addressLocality: siteConfig.contact.address.city,
+      addressRegion: siteConfig.contact.address.state,
+      postalCode: siteConfig.contact.address.pincode,
+      addressCountry: siteConfig.contact.address.country,
     },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Sales',
-      telephone: config.contact.phones[0],
-      email: config.contact.email,
+      telephone: siteConfig.contact.phones[0],
+      email: siteConfig.contact.email,
     },
     sameAs: [
-      config.social.instagram,
-      config.social.facebook,
+      siteConfig.social.instagram,
+      siteConfig.social.facebook,
     ],
   };
 };
 
-export const createLocalBusinessSchema = (config: Record<string, any>): Record<string, any> => {
+export const createRealEstateAgentSchema = (): Record<string, unknown> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    '@id': 'https://www.motherproperties.net',
+    name: siteConfig.brand.name,
+    description: siteConfig.seo.defaultDescription,
+    url: 'https://www.motherproperties.net',
+    telephone: siteConfig.contact.phones[0],
+    email: siteConfig.contact.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}`,
+      addressLocality: siteConfig.contact.address.city,
+      addressRegion: siteConfig.contact.address.state,
+      postalCode: siteConfig.contact.address.pincode,
+      addressCountry: siteConfig.contact.address.country,
+    },
+    sameAs: [
+      siteConfig.social.instagram,
+      siteConfig.social.facebook,
+    ],
+    image: siteConfig.seo.ogImage,
+  };
+};
+
+export const createLocalBusinessSchema = (): Record<string, unknown> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: config.brand.name,
+    name: siteConfig.brand.name,
     image: 'https://www.motherproperties.net/images/hero.jpg',
-    description: config.seo.defaultDescription,
+    description: siteConfig.seo.defaultDescription,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: `${config.contact.address.line1}, ${config.contact.address.line2}`,
-      addressLocality: config.contact.address.city,
-      addressRegion: config.contact.address.state,
-      postalCode: config.contact.address.pincode,
-      addressCountry: config.contact.address.country,
+      streetAddress: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}`,
+      addressLocality: siteConfig.contact.address.city,
+      addressRegion: siteConfig.contact.address.state,
+      postalCode: siteConfig.contact.address.pincode,
+      addressCountry: siteConfig.contact.address.country,
     },
-    telephone: config.contact.phones[0],
+    telephone: siteConfig.contact.phones[0],
     url: 'https://www.motherproperties.net',
     priceRange: '₹',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '10:00',
       closes: '18:00',
     },
   };
@@ -79,6 +110,53 @@ export const createBreadcrumbSchema = (items: Array<{ name: string; url: string 
     })),
   };
 };
+
+/**
+ * Generate FAQPage structured data from FAQ items.
+ * Only use for pages where the FAQ reflects genuine page content.
+ */
+export const createFAQPageSchema = (items: FAQItem[]) => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+};
+
+export const createArticleSchema = ({
+  title,
+  description,
+  path,
+  reviewedDate,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  reviewedDate: string;
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  dateModified: new Date(reviewedDate).toISOString(),
+  mainEntityOfPage: `https://www.motherproperties.net${path}`,
+  author: { '@type': 'Organization', name: siteConfig.brand.name },
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.brand.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.motherproperties.net/images/motherproperties-logo (2).png',
+    },
+  },
+});
 
 export const getCanonicalUrl = (path: string = '') => {
   const baseUrl = 'https://www.motherproperties.net';

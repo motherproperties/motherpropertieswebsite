@@ -33,7 +33,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-gray-300 text-sm mb-4 max-w-md">
-              Green is the New Gold – Invest in sustainable farmlands and nature-led real estate that creates meaningful environmental impact.
+              Green is the New Gold – explore nature-led property opportunities with clear project information, on-ground visits and independent verification.
             </p>
             {/* Social Links */}
             <div className="flex space-x-4">
@@ -74,7 +74,7 @@ export function Footer() {
               ))}
               <li>
                 <Link
-                  href="/privacy"
+                  href="/privacy/"
                   className="text-gray-300 hover:text-gold-400 transition-colors text-sm"
                 >
                   Privacy Policy
@@ -82,11 +82,17 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/terms"
+                  href="/terms/"
                   className="text-gray-300 hover:text-gold-400 transition-colors text-sm"
-                >
-                  Terms & Conditions
-                </Link>
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                href="/disclaimer/"
+                className="text-gray-400 hover:text-gold-400 transition-colors"
+              >
+                Project Disclaimer
+              </Link>
               </li>
             </ul>
           </div>
@@ -133,7 +139,10 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © {currentYear} {siteConfig.brand.name}. All rights reserved.
+              © {currentYear} {siteConfig.brand.legalName}. All rights reserved.
+              {siteConfig.brand.registrationNumber && (
+                <> Registration: {siteConfig.brand.registrationNumber}.</>
+              )}
             </p>
             <div className="flex items-center space-x-6">
               <p className="text-gray-400 text-sm">{siteConfig.brand.website}</p>
@@ -141,10 +150,10 @@ export function Footer() {
                 href="https://samarthv.me"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-gray-500 hover:text-gold-400 transition-colors flex items-center gap-1 group"
+                className="text-xs text-gray-300 hover:text-gold-300 transition-colors flex items-center gap-1 group"
               >
                 <span>Designed by</span>
-                <span className="font-semibold text-gray-400 group-hover:text-gold-400 transition-colors">Samarth Viswanath</span>
+                <span className="font-semibold text-gray-200 group-hover:text-gold-300 transition-colors">Samarth Viswanath</span>
               </a>
             </div>
           </div>

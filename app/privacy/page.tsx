@@ -9,6 +9,13 @@ import { Section } from '@/components/ui/Section';
 export const metadata: Metadata = {
   title: 'Privacy Policy – Mother Properties',
   description: 'Privacy policy for Mother Properties website.',
+  alternates: { canonical: '/privacy/' },
+  openGraph: {
+    title: 'Privacy Policy | Mother Properties',
+    description: 'How Mother Properties collects, uses and protects website and enquiry information.',
+    url: '/privacy/',
+    images: ['/images/hero.jpg'],
+  },
 };
 
 export default function PrivacyPage() {
@@ -19,7 +26,7 @@ export default function PrivacyPage() {
       <Section background="white">
         <div className="max-w-4xl mx-auto prose prose-lg">
           <p className="text-lg font-semibold text-gray-900 mb-4">
-            Last Updated: November 24, 2025
+            Last Updated: September 8, 2026
           </p>
 
           <h2>Introduction</h2>
@@ -35,8 +42,8 @@ export default function PrivacyPage() {
           
           <h3>1.1 Information You Provide</h3>
           <ul>
-            <li><strong>Contact Information:</strong> Name, email address, phone number, postal address</li>
-            <li><strong>Inquiry Details:</strong> Information about your interest in our properties</li>
+            <li><strong>Contact Information:</strong> Name, email address, phone number, city and country</li>
+            <li><strong>Inquiry Details:</strong> Project interest, intent, preferred contact method and time, optional budget range and site-visit preferences</li>
             <li><strong>Communication:</strong> Content of emails, messages, or inquiries you send us</li>
             <li><strong>Financial Information:</strong> Payment information if you make a purchase</li>
           </ul>
@@ -45,7 +52,7 @@ export default function PrivacyPage() {
           <ul>
             <li><strong>Device Information:</strong> Browser type, IP address, operating system</li>
             <li><strong>Usage Information:</strong> Pages visited, time spent, links clicked</li>
-            <li><strong>Cookies:</strong> We use cookies to enhance your experience</li>
+            <li><strong>Attribution:</strong> Landing page, referrer and campaign parameters submitted with an enquiry</li>
           </ul>
 
           <h2>2. How We Use Your Information</h2>
@@ -67,9 +74,9 @@ export default function PrivacyPage() {
           </p>
           <ul>
             <li>SSL/TLS encryption for data transmission</li>
-            <li>Secure password protection</li>
-            <li>Limited access to personal information</li>
-            <li>Regular security assessments</li>
+            <li>Restricted access to lead records</li>
+            <li>Encrypted platform storage and transport</li>
+            <li>Token-protected administrative export</li>
           </ul>
           <p>
             However, no method of transmission over the Internet is 100% secure. While we strive to use commercially acceptable means to protect your personal information, we cannot guarantee absolute security.
@@ -80,12 +87,21 @@ export default function PrivacyPage() {
             We do <strong>not</strong> sell, trade, or rent your personal information to third parties. We may share information in limited circumstances:
           </p>
           <ul>
-            <li>With service providers who assist in our operations (subject to confidentiality agreements)</li>
+            <li>With hosting, lead-storage and email-delivery providers used to process your request</li>
             <li>When required by law or legal process</li>
             <li>To protect our rights and the safety of our users</li>
           </ul>
 
-          <h2>5. Your Rights</h2>
+          <h2>5. Retention</h2>
+          <p>
+            Enquiry records are retained only while needed to respond, maintain
+            transaction records, resolve disputes or meet legal obligations.
+            Mother Properties should review inactive leads at least annually.
+            You may request deletion using the contact details below, subject to
+            legal retention requirements.
+          </p>
+
+          <h2>6. Your Rights</h2>
           <p>You have the following rights regarding your information:</p>
           <ul>
             <li><strong>Access:</strong> Request a copy of personal information we hold</li>
@@ -95,27 +111,27 @@ export default function PrivacyPage() {
             <li><strong>Data Portability:</strong> Request your data in a portable format</li>
           </ul>
 
-          <h2>6. Cookies and Tracking</h2>
+          <h2>7. Cookies and Tracking</h2>
           <p>
-            Our Website uses cookies to enhance functionality and user experience. You can control cookie settings in your browser preferences. Disabling cookies may affect Website functionality.
+            Essential browser storage remembers your analytics preference. Optional Google Analytics loads only after you select “Allow analytics.” When enabled, it records page paths and conversion-event names such as phone, WhatsApp, guide, catalogue and form actions; it does not intentionally include form contents or lead identifiers. You can reopen Privacy settings on any page and switch back to essential-only use.
           </p>
 
-          <h2>7. Third-Party Links</h2>
+          <h2>8. Third-Party Links</h2>
           <p>
             Our Website may contain links to third-party websites. We are not responsible for their privacy practices. We encourage you to review their privacy policies.
           </p>
 
-          <h2>8. Children's Privacy</h2>
+          <h2>9. Children's Privacy</h2>
           <p>
             Our Website is not intended for children under 13 years of age. We do not knowingly collect information from children under 13. If we discover we have collected such information, we will delete it promptly.
           </p>
 
-          <h2>9. Changes to Privacy Policy</h2>
+          <h2>10. Changes to Privacy Policy</h2>
           <p>
             We may update this Privacy Policy periodically. We will notify you of significant changes by posting the updated policy on this page with an updated "Last Updated" date.
           </p>
 
-          <h2>10. Contact Us</h2>
+          <h2>11. Contact Us</h2>
           <p>
             If you have questions about this Privacy Policy, your personal information, or to exercise your rights, please contact us:
           </p>
@@ -126,7 +142,7 @@ export default function PrivacyPage() {
           </ul>
 
           <p className="text-sm text-gray-500 mt-8">
-            Last Updated: November 24, 2025
+            Last Updated: September 8, 2026
           </p>
         </div>
       </Section>

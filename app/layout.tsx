@@ -1,5 +1,5 @@
 /**
- * Root layout - Global layout with Header, Footer, fonts, and metadata
+ * Root layout - Global layout with Header, Footer, MobileBottomBar, fonts, and metadata
  */
 
 import type { Metadata } from 'next';
@@ -7,7 +7,10 @@ import { Outfit, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { MobileBottomBar } from '@/components/layout/MobileBottomBar';
+import { ConsentAnalytics } from '@/components/layout/ConsentAnalytics';
 import { siteConfig } from '@/lib/siteConfig';
+import { createRealEstateAgentSchema, createOrganizationSchema } from '@/lib/seo';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -48,6 +51,9 @@ export const metadata: Metadata = {
     description: siteConfig.seo.defaultDescription,
     images: [siteConfig.seo.ogImage],
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+  },
 };
 
 export default function RootLayout({
@@ -55,45 +61,31 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const schemaMarkup = {
-    '@context': 'https://schema.org',
-    '@type': 'RealEstateAgent',
-    '@id': 'https://www.motherproperties.net',
-    name: siteConfig.brand.name,
-    description: siteConfig.seo.defaultDescription,
-    url: 'https://www.motherproperties.net',
-    telephone: siteConfig.contact.phones[0],
-    email: siteConfig.contact.email,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: `${siteConfig.contact.address.line1}, ${siteConfig.contact.address.line2}`,
-      addressLocality: siteConfig.contact.address.city,
-      addressRegion: siteConfig.contact.address.state,
-      postalCode: siteConfig.contact.address.pincode,
-      addressCountry: siteConfig.contact.address.country,
-    },
-    sameAs: [
-      siteConfig.social.instagram,
-      siteConfig.social.facebook,
-    ],
-    image: siteConfig.seo.ogImage,
-  };
+  const realEstateAgentSchema = createRealEstateAgentSchema();
+  const organizationSchema = createOrganizationSchema();
 
   return (
     <html lang="en" className={`${outfit.variable} ${playfair.variable}`}>
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([realEstateAgentSchema, organizationSchema]),
+          }}
         />
       </head>
-      <body className="font-sans">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-forest-500 focus:text-white focus:p-4 focus:rounded">
+      <body className="font-sans pb-14 lg:pb-0">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-forest-500 focus:text-white focus:p-4 focus:rounded"
+        >
           Skip to main content
         </a>
         <Header />
         <main id="main-content">{children}</main>
         <Footer />
+        <MobileBottomBar />
+        <ConsentAnalytics />
       </body>
     </html>
   );

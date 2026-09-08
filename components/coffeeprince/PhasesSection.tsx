@@ -67,6 +67,11 @@ export function PhasesSection({ phases }: PhasesSectionProps) {
                 <p className="text-sm text-coffee-600 font-medium mb-2">{phase.subtitle}</p>
               )}
               <p className="text-gray-600">{phase.description}</p>
+              {phase.verifiedDate && (
+                <p className="mt-3 text-xs font-medium text-amber-800">
+                  {phase.verifiedDate}
+                </p>
+              )}
             </div>
           </div>
         </motion.div>

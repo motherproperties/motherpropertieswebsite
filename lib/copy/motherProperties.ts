@@ -6,169 +6,262 @@
 import {
   Feature,
   TimelineStep,
-  Testimonial,
   FAQItem,
   ProjectSummary,
   HeroSlide,
   DirectorInfo,
+  ProofFact,
+  TrustStep,
 } from '../types';
+
+// ─── Homepage Content ────────────────────────────────────────────────────────
 
 export const homeContent = {
   hero: {
     slides: [
       {
-        image: '/images/hero.jpg',
-        headline: 'NATURE IS THE NEW LUXURY',
-        subheadline: 'Green is the New Gold – Invest in Nature-Led Living',
-        primaryCTA: { text: 'Explore Coffee Prince', href: '/coffeeprince' },
-        secondaryCTA: { text: 'View All Projects', href: '/projects' },
+        image: '/images/Coffee-plantation.jpg',
+        headline: 'Explore Managed Coffee Farmland Near Sakleshpur',
+        subheadline:
+          'Review the proposed ownership, plantation management and nature-led experience with a Bangalore-based property team. Verify current documents before purchase.',
+        primaryCTA: { text: 'Book a Coffee Prince Site Visit', href: '/site-visit/' },
+        secondaryCTA: { text: 'Get the Project Catalogue', href: '/projects/coffee-prince/#catalogue' },
       },
       {
-        image: '/images/lifestyle-nature.jpg',
-        headline: 'GREEN IS THE NEW GOLD',
-        subheadline: 'Invest in nature-led living and long-term value',
-        primaryCTA: { text: 'Explore Coffee Prince', href: '/coffeeprince' },
+        image: '/images/hero.jpg',
+        headline: 'Professionally Managed Farmland in the Western Ghats',
+        subheadline:
+          'A published coffee, pepper and arecanut management plan with ownership documents available for independent review.',
+        primaryCTA: { text: 'Explore Coffee Prince', href: '/projects/coffee-prince/' },
         secondaryCTA: { text: 'Contact Us', href: '/contact' },
       },
       {
-        image: '/images/Coffee-plantation.jpg',
-        headline: 'BUILD YOUR LEGACY IN NATURE',
-        subheadline: 'Managed farmlands that blend lifestyle with investment',
-        primaryCTA: { text: 'Explore Coffee Prince', href: '/coffeeprince' },
-        secondaryCTA: { text: 'Learn More', href: '/about' },
+        image: '/images/lifestyle-nature.jpg',
+        headline: 'From Bangalore to Your Own Coffee Estate',
+        subheadline:
+          'Indicatively about 4 hours from Bangalore. Request current route guidance and an available visit slot.',
+        primaryCTA: { text: 'Plan a Site Visit', href: '/site-visit/' },
+        secondaryCTA: { text: 'Learn About Us', href: '/about' },
       },
     ] as HeroSlide[],
   },
+
+  proofStrip: {
+    facts: [
+      {
+        icon: 'Mountain',
+        label: 'Project Area',
+        value: 'Approx. 35 Acres',
+        source: 'Published project material; request current records',
+      },
+      {
+        icon: 'Car',
+        label: 'From Bangalore',
+        value: '~4 Hour Drive',
+        source: 'Indicative only; traffic and starting point vary',
+      },
+      {
+        icon: 'Ruler',
+        label: 'Plot Sizes From',
+        value: '~6,000 sq.ft.',
+        source: 'Subject to current availability',
+      },
+      {
+        icon: 'Sprout',
+        label: 'Crop Model',
+        value: 'Coffee + Pepper + Arecanut',
+        source: 'Published crop plan; confirm current status',
+      },
+    ] as ProofFact[],
+  },
+
+  trustSteps: {
+    title: 'A Practical Project Review Framework',
+    subtitle:
+      'The checks buyers should expect to see explained and independently verify.',
+    steps: [
+      {
+        icon: 'FileCheck',
+        title: 'Ownership & Title Review',
+        description: 'Review title documents, encumbrances and ownership history.',
+        details:
+          'We examine title deeds, encumbrance certificates, tax receipts and ownership history. We recommend buyers also conduct their own independent legal verification.',
+      },
+      {
+        icon: 'Map',
+        title: 'Survey & Boundary Review',
+        description: 'Match property boundaries with survey records.',
+        details:
+          'Survey numbers, dimensions and boundary markers should be reconciled with government records and on-ground measurements.',
+      },
+      {
+        icon: 'Route',
+        title: 'Access Review',
+        description: 'Review legal and practical access to the property.',
+        details:
+          'We verify the accessibility of the property including road conditions, distance from highways and availability of approach roads throughout the year.',
+      },
+      {
+        icon: 'Droplets',
+        title: 'Water & Power Review',
+        description: 'Review evidence for water and power infrastructure.',
+        details:
+          'Availability of borewells, natural water sources, rainfall data and electricity connections are assessed to ensure the land is viable for farming.',
+      },
+      {
+        icon: 'Scale',
+        title: 'Land-Use & Regulatory Review',
+        description: 'Review zoning, land-use and regulatory requirements.',
+        details:
+          'Agricultural land classification, conversion status, local panchayat regulations and any applicable restrictions are reviewed. We do not provide legal advice; buyers should consult their own legal counsel.',
+      },
+      {
+        icon: 'ClipboardList',
+        title: 'Buyer Documentation Support',
+        description: 'Understand documentation and registration responsibilities.',
+        details:
+          'We assist with sale deed preparation, registration coordination and post-purchase documentation. All legal formalities are handled through licensed professionals.',
+      },
+    ] as TrustStep[],
+  },
+
   about: {
     title: 'About Mother Properties',
     summary:
-      'Mother Properties brings decades of real estate expertise to create curated managed farmlands that blend natural beauty with long-term value. We focus on trust, transparency, and delivering nature-led living experiences.',
-    cta: { text: 'Know More About Us', href: '/about' },
+      'Mother Properties is a Bangalore-based property consultancy offering carefully evaluated, professionally managed farmland opportunities in Karnataka. Our focus is on trust, transparent documentation and nature-led ownership experiences.',
+    cta: { text: 'Why Mother Properties', href: '/about' },
   },
+
   whyUs: {
     title: 'Why Mother Properties',
     features: [
       {
         icon: 'Leaf',
-        title: 'Green is the New Gold – Premium Farmlands',
+        title: 'Carefully Evaluated Farmlands',
         description:
-          'Carefully selected properties in pristine locations with expert management and sustainable practices.',
+          'Properties in the Western Ghats region selected through our structured evaluation process covering title, access, water and land-use.',
       },
       {
         icon: 'Shield',
-        title: 'Transparent Processes & Titled Land',
+        title: 'Transparent Documentation',
         description:
-          'Clear ownership documentation, rigorous due diligence, and complete transparency at every step.',
+          'Clear ownership documentation with a defined process. We recommend independent legal verification for all buyers.',
       },
       {
         icon: 'Sprout',
-        title: 'Sustainable, Eco-Friendly Practices',
+        title: 'Professional Farm Management',
         description:
-          'Environmentally conscious development that preserves natural ecosystems and promotes biodiversity.',
+          'Coffee, pepper and arecanut cultivation managed by experienced farm teams with regular updates to owners.',
       },
       {
         icon: 'Users',
-        title: 'End-to-End Support & Management',
+        title: 'End-to-End Support',
         description:
-          'Comprehensive support from site selection to ongoing management, ensuring peace of mind for owners.',
+          'From site visits and documentation to ongoing management — our team supports owners throughout their journey.',
       },
     ] as Feature[],
   },
+
   howItWorks: {
     title: 'How It Works',
     steps: [
       {
-        title: 'Discover & Consultation',
+        title: 'Explore & Consult',
         description:
-          'Explore our projects and discuss your vision with our team. We help you understand the opportunities and benefits.',
+          'Browse our projects, speak with our team and understand the ownership model, costs and documentation process.',
       },
       {
-        title: 'Site Visit & Experience',
+        title: 'Visit the Property',
         description:
-          'Visit the property, walk the land, and experience the natural beauty firsthand. See what makes each project unique.',
+          'Schedule a guided site visit to see the land, meet the farm team and experience the Western Ghats location firsthand.',
       },
       {
         title: 'Documentation & Ownership',
         description:
-          'Complete transparent documentation process with clear title transfer and legal support.',
+          'Review the documents with independent counsel and complete registration if the transaction proceeds.',
       },
       {
         title: 'Ongoing Management & Updates',
         description:
-          'Enjoy professional management of your farmland with regular updates and the option to visit anytime.',
+          'The proposed farm-management scope covers cultivation and owner updates. Visits are arranged in advance and subject to site access.',
       },
     ] as TimelineStep[],
   },
-  testimonials: [
-    {
-      name: 'Rajesh Kumar',
-      role: 'Investor & Nature Enthusiast',
-      quote:
-        'The transparency and professionalism of Mother Properties gave me complete confidence. Coffee Prince is not just an investment, it\'s a connection to nature.',
-    },
-    {
-      name: 'Priya Sharma',
-      role: 'IT Professional',
-      quote:
-        'I was looking for a weekend retreat that would also be a good investment. Mother Properties delivered exactly that with their managed farmland concept.',
-    },
-    {
-      name: 'Anand Reddy',
-      role: 'Business Owner',
-      quote:
-        'The clarity of process and the quality of land exceeded my expectations. It\'s wonderful to own a piece of the Western Ghats.',
-    },
-  ] as Testimonial[],
+
+  // Testimonials removed — PRD §6: replace with approved customer stories
+  // or leave empty until consent-based testimonials are collected.
+
   faq: [
     {
       question: 'What does Mother Properties do?',
       answer:
-        'Mother Properties specializes in curated managed farmlands and nature-centric real estate. We identify premium agricultural land, develop it sustainably, and offer ownership opportunities with professional management.',
+        'Mother Properties is a Bangalore-based property consultancy that identifies and manages farmland projects in Karnataka. We evaluate land for clear ownership, access and viability, then offer titled plots with professional farm management.',
     },
     {
-      question: 'What is a managed farmland?',
+      question: 'What is managed farmland?',
       answer:
-        'Managed farmland is a model where you own titled agricultural land while experts handle cultivation, maintenance, and operations. You enjoy the benefits of ownership, potential returns, and a connection to nature without day-to-day responsibilities.',
+        'Managed farmland is a model where you own titled agricultural land while experienced farm managers handle cultivation, maintenance and operations. You hold full ownership of your plot and receive regular updates on farm activities.',
     },
     {
       question: 'How is ownership structured?',
       answer:
-        'All our properties come with clear, titled ownership. You receive proper documentation and legal title to your plot, ensuring complete transparency and security.',
+        'The proposed transaction uses a registered sale-deed model. Buyers must confirm eligibility, title, encumbrances and registration requirements with independent legal counsel.',
     },
     {
       question: 'Can I visit my farmland?',
       answer:
-        'Absolutely! As an owner, you can visit your property anytime. Many of our projects also include amenities and accommodations for comfortable stays.',
+        'Owner and prospective-buyer visits are subject to access conditions, estate rules and scheduling. Contact the team before travelling.',
     },
     {
-      question: 'What makes Mother Properties different?',
+      question: 'Where is Coffee Prince located?',
       answer:
-        'Our focus on trust, transparency, and long-term relationships sets us apart. We conduct rigorous due diligence, provide clear documentation, and offer ongoing support and management.',
+        'Coffee Prince is located in the Sakleshpur region of the Western Ghats in Karnataka, approximately a 4-hour drive from Bangalore via NH75.',
     },
     {
-      question: 'Are these properties eco-friendly?',
+      question: 'What crops are cultivated?',
       answer:
-        'Yes, sustainability is at the core of our approach. We use eco-friendly practices, preserve natural ecosystems, and promote biodiversity in all our developments.',
+        'The current farming model includes coffee as the primary crop, pepper as an intercrop and arecanut as a long-term cultivation. The crop mix is managed by our farm team for sustainable productivity.',
     },
   ] as FAQItem[],
+
   cta: {
-    title: 'Ready to experience curated managed farmlands?',
-    subtitle: 'Start your journey towards nature-led living',
-    primaryButton: { text: 'Plan a Coffee Prince Visit', href: '/coffeeprince#site-visit' },
-    secondaryButton: { text: 'Contact Us', href: '/contact' },
+    title: 'Ready to see Coffee Prince in person?',
+    subtitle:
+      'Book a guided site visit, download the catalogue or speak to our team.',
+    primaryButton: {
+      text: 'Book a Site Visit',
+      href: '/site-visit/',
+    },
+    secondaryButton: { text: 'Get the Catalogue', href: '/projects/coffee-prince/#catalogue' },
+  },
+
+  projectCard: {
+    slug: 'projects/coffee-prince',
+    name: 'Coffee Prince',
+    logo: '/images/coffee_prince_logo_gold_transparent_4000.png',
+    summary:
+      'Project material describes a managed coffee-farmland opportunity in the Sakleshpur region. Request current parcel, ownership and management documents.',
+    tags: ['Managed Farmland', 'Document Review', 'Western Ghats'],
+    badge: 'Featured',
+    location: 'Sakleshpur, Karnataka',
+    cropModel: 'Coffee + Pepper + Arecanut',
+    plotSizes: 'From ~6,000 sq.ft.',
+    projectStatus: 'Enquiries open — confirm current inventory',
   },
 };
 
+// ─── About Page Content ──────────────────────────────────────────────────────
+
 export const aboutContent = {
   hero: {
-    title: 'About Mother Properties',
-    subtitle: 'Building nature-led, long-term assets for generations',
+    title: 'Why Mother Properties',
+    subtitle: 'A Bangalore-based consultancy helping families and professionals find carefully evaluated farmland in Karnataka.',
   },
   story: {
     paragraphs: [
-      'Mother Properties was founded with a vision to create meaningful connections between people and nature through curated farmlands and sustainable real estate. We believe that true wealth lies not just in financial returns, but in the legacy we build for future generations.',
-      'With years of experience in real estate and a deep understanding of agricultural land, we identify premium properties in pristine locations. Our approach combines traditional wisdom with modern management practices to create farmlands that are both productive and beautiful.',
-      'Our commitment to trust, transparency, and customer-centric service has made us a preferred partner for families, professionals, and investors seeking nature-led living opportunities. Every property we offer undergoes rigorous due diligence, and we provide complete support from acquisition to ongoing management.',
+      'Mother Properties was founded to help people connect with nature through carefully evaluated farmland in Karnataka. We believe in transparent processes, clear documentation and long-term relationships with our clients.',
+      'Our founder identified an opportunity to bring structured evaluation and management coordination to farmland ownership. Buyers should independently review title, access, water, land use and viability for the specific parcel.',
+      'Our approach combines on-ground knowledge of Karnataka\'s agricultural regions with a commitment to clear, verifiable documentation. We do not make return guarantees — instead, we focus on helping buyers make informed decisions with the facts they need.',
     ],
   },
   director: {
@@ -176,68 +269,65 @@ export const aboutContent = {
     name: 'Suresh Robert',
     title: 'Founder & Director, Mother Properties',
     message:
-      'With over 23 years of experience in real estate and tourism, I founded Mother Properties and Happy Club to help families, professionals, and investors create long-term value through nature-friendly assets. Coffee Prince represents the culmination of this vision—a managed coffee estate that blends secure ownership, natural beauty, and a resort-like lifestyle. Our goal is to provide not just land, but a complete experience that connects people with nature while building lasting wealth.',
+      'I founded Mother Properties to help families and professionals research carefully evaluated farmland opportunities in Karnataka. Coffee Prince represents this vision: a proposed managed coffee-farmland ownership experience in the Western Ghats. Our goal is to provide transparent information and a clear verification pathway so buyers can make informed decisions.',
     signature: 'Suresh Robert',
   } as DirectorInfo,
   values: [
     {
       icon: 'Shield',
-      title: 'Credibility & Due Diligence',
+      title: 'Evaluation & Due Diligence',
       description:
-        'Every property undergoes rigorous verification and legal checks. We ensure clear titles, proper documentation, and complete transparency.',
+        'Every property goes through our structured review covering ownership, title, survey, access, water and regulatory status.',
     },
     {
       icon: 'Sprout',
-      title: 'Sustainable Development',
+      title: 'Professional Farm Management',
       description:
-        'We develop properties with minimal environmental impact, preserving natural ecosystems and promoting biodiversity.',
+        'Experienced farm teams manage cultivation using sustainable practices while providing regular updates to owners.',
     },
     {
       icon: 'Heart',
-      title: 'Customer-Centric Experience',
+      title: 'Owner-Focused Service',
       description:
-        'Your vision and goals guide our approach. We provide personalized service and ongoing support throughout your ownership journey.',
+        'We support owners from initial inquiry through documentation and into ongoing management, with clear communication at every step.',
     },
     {
       icon: 'Handshake',
       title: 'Long-Term Relationships',
       description:
-        'We build lasting partnerships with our clients, providing continuous management and support long after the initial purchase.',
+        'Our involvement does not end at purchase. We provide ongoing management, communication and support for our farmland communities.',
     },
   ] as Feature[],
   happyClub: {
     title: 'Happy Club',
     description:
-      'An extension of our vision, Happy Club offers eco-tourism experiences, wellness retreats, and community activities in natural settings. It complements our farmland projects by creating opportunities for meaningful experiences in nature.',
+      'An extension of our vision, Happy Club organises nature experiences, wellness activities and community events in natural settings across Karnataka.',
   },
 };
+
+// ─── Projects Page Content ───────────────────────────────────────────────────
 
 export const projectsContent = {
   hero: {
     title: 'Our Projects',
-    subtitle: 'Green is the New Gold – Sustainable Real Estate Investments',
+    subtitle: 'Carefully evaluated farmland with professional management in Karnataka.',
   },
   projects: [
     {
-      slug: 'coffeeprince',
+      slug: 'projects/coffee-prince',
       name: 'Coffee Prince',
       logo: '/images/coffee_prince_logo_gold_transparent_4000.png',
       summary:
-        'Managed coffee farmlands in the Sakleshpur region of the Western Ghats. Approximately 35+ acres of curated farmland blending natural beauty with modern living.',
-      tags: ['Managed Farmland', 'Coffee Estate Experience', 'Western Ghats'],
+        'Project material describes a managed coffee-farmland opportunity in the Sakleshpur region. Request current parcel, ownership and management documents.',
+      tags: ['Managed Farmland', 'Document Review', 'Western Ghats'],
       badge: 'Featured',
     },
-    {
-      slug: 'upcoming-1',
-      name: 'Coming Soon',
-      summary:
-        'New exciting projects in development. Stay tuned for more curated farmland opportunities.',
-      tags: ['Upcoming'],
-    },
   ] as ProjectSummary[],
+  // Removed upcoming-1 placeholder from public project listing
   cta: {
-    title: 'Don\'t see what you\'re looking for?',
-    description: 'Get in touch with our team to discuss your specific requirements and vision.',
+    title: 'Looking for something specific?',
+    description:
+      'Get in touch with our team to discuss your requirements. We can help with farmland, property consultancy and site visits.',
     button: { text: 'Talk to Us', href: '/contact' },
   },
 };

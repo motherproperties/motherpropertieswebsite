@@ -6,7 +6,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -16,11 +15,12 @@ interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
+  disabled?: boolean;
 }
 
 const variantClasses = {
   primary: 'bg-forest-500 text-white hover:bg-forest-600',
-  secondary: 'bg-gold-500 text-white hover:bg-gold-600',
+  secondary: 'bg-gold-500 text-forest-900 hover:bg-gold-400',
   outline: 'border-2 border-cream-100 text-cream-100 hover:bg-cream-100 hover:text-forest-500',
 };
 
@@ -38,30 +38,26 @@ export function Button({
   onClick,
   type = 'button',
   className = '',
+  disabled = false,
 }: ButtonProps) {
-  const baseClasses = `inline-block font-medium rounded-2xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-500 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const baseClasses = `inline-flex items-center font-medium rounded-2xl transition duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-forest-500 disabled:cursor-not-allowed disabled:opacity-60 ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
   if (href) {
     return (
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <Link href={href}>
-          <span className={baseClasses}>
-            {children}
-          </span>
-        </Link>
-      </motion.div>
+      <Link href={href} className={baseClasses}>
+        {children}
+      </Link>
     );
   }
 
   return (
-    <motion.button
+    <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={baseClasses}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
     >
       {children}
-    </motion.button>
+    </button>
   );
 }

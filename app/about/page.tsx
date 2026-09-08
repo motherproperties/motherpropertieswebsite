@@ -13,13 +13,15 @@ import { Reveal } from '@/components/ui/Reveal';
 export const metadata: Metadata = {
   title: 'About Mother Properties – Premium Farmland Real Estate Company',
   description:
-    'Learn about Mother Properties, our mission to provide curated managed farmlands, company values, and leadership team. Trusted farmland investment partner since inception.',
+    'Learn about Mother Properties, its managed farmland approach, company values and leadership.',
   keywords: 'about Mother Properties, farmland company, real estate, mission, values, leadership, Bangalore',
   openGraph: {
     title: 'About Mother Properties – Our Story & Mission',
-    description: 'Discover Mother Properties mission to deliver premium farmlands and nature-led real estate investments. Green is the New Gold.',
+    description: 'Discover Mother Properties and its approach to managed farmland and buyer documentation.',
+    url: '/about/',
     images: ['/images/director-suresh-robert.jpg'],
   },
+  alternates: { canonical: '/about/' },
 };
 
 export default function AboutPage() {

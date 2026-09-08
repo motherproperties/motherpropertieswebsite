@@ -7,7 +7,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ProjectSummary } from '@/lib/types';
 
@@ -26,7 +25,7 @@ export function ProjectCard({ project, featured = false }: ProjectCardProps) {
     >
       {/* Featured Banner */}
       {featured && (
-        <div className="absolute top-0 right-0 bg-gold-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl z-20">
+        <div className="absolute top-0 right-0 bg-gold-500 text-forest-900 text-xs font-bold px-3 py-1 rounded-bl-xl z-20">
           FEATURED
         </div>
       )}

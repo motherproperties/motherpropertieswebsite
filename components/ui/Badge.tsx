@@ -11,7 +11,7 @@ interface BadgeProps {
 
 const variantClasses = {
   primary: 'bg-forest-500 text-white',
-  secondary: 'bg-gold-500 text-white',
+  secondary: 'bg-gold-500 text-forest-900',
   outline: 'border-2 border-forest-500 text-forest-500 bg-transparent',
 };
 

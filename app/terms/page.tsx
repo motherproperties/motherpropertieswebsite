@@ -9,6 +9,13 @@ import { Section } from '@/components/ui/Section';
 export const metadata: Metadata = {
   title: 'Terms & Conditions – Mother Properties',
   description: 'Terms and conditions for Mother Properties website.',
+  alternates: { canonical: '/terms/' },
+  openGraph: {
+    title: 'Terms and Conditions | Mother Properties',
+    description: 'Terms governing use of the Mother Properties website and project information.',
+    url: '/terms/',
+    images: ['/images/hero.jpg'],
+  },
 };
 
 export default function TermsPage() {
@@ -19,7 +26,7 @@ export default function TermsPage() {
       <Section background="white">
         <div className="max-w-4xl mx-auto prose prose-lg">
           <p className="text-lg font-semibold text-gray-900 mb-4">
-            Last Updated: November 24, 2025
+            Last Updated: September 7, 2026
           </p>
 
           <h2>1. Agreement to Terms</h2>
@@ -129,7 +136,7 @@ export default function TermsPage() {
           </p>
 
           <p className="text-sm text-gray-500 mt-8">
-            Last Updated: November 24, 2025
+            Last Updated: September 7, 2026
           </p>
         </div>
       </Section>

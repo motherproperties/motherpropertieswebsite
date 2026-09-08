@@ -7,9 +7,9 @@
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { X } from 'lucide-react';
+import { X, Phone, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { siteConfig } from '@/lib/siteConfig';
+import { siteConfig, getWhatsAppLink, getCallLink } from '@/lib/siteConfig';
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -25,6 +25,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
     if (isOpen) {
       onClose();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]); // Only depend on pathname
 
   // Trap focus and prevent body scroll when open
@@ -125,7 +126,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
               {/* Navigation Links */}
               <nav className="flex-1 overflow-y-auto p-6">
-                <ul className="space-y-4">
+                <ul className="space-y-2">
                   {siteConfig.navigation.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -133,17 +134,61 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                         <Link
                           href={item.href}
                           className={`block py-3 px-4 rounded-lg text-lg font-medium transition-colors ${isActive
-                              ? 'bg-gold-500 text-white'
+                              ? 'bg-gold-500 text-forest-900'
                               : 'text-cream-100 hover:bg-forest-800'
                             }`}
                         >
                           {item.name}
                         </Link>
+                        {/* Render sub-items */}
+                        {item.children && (
+                          <ul className="ml-4 mt-1 space-y-1">
+                            {item.children.map((child) => {
+                              const isChildActive = pathname === child.href;
+                              return (
+                                <li key={child.href}>
+                                  <Link
+                                    href={child.href}
+                                    className={`block py-2 px-4 rounded-lg text-base transition-colors ${
+                                      isChildActive
+                                        ? 'bg-gold-400 text-forest-900'
+                                        : 'text-cream-100/80 hover:bg-forest-800'
+                                    }`}
+                                  >
+                                    {child.name}
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
                       </li>
                     );
                   })}
                 </ul>
               </nav>
+
+              {/* Quick Actions */}
+              <div className="px-6 pb-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href={getWhatsAppLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-xl font-medium transition-colors"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    WhatsApp
+                  </a>
+                  <a
+                    href={getCallLink()}
+                    className="flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-white py-3 px-4 rounded-xl font-medium transition-colors"
+                  >
+                    <Phone className="w-5 h-5" />
+                    Call
+                  </a>
+                </div>
+              </div>
 
               {/* Footer */}
               <div className="p-6 border-t border-forest-800 bg-forest-800">
@@ -155,7 +200,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   {siteConfig.contact.email}
                 </a>
                 <a
-                  href={`tel:${siteConfig.contact.phones[0]}`}
+                  href={getCallLink()}
                   className="text-sm text-gold-400 hover:underline block"
                 >
                   {siteConfig.contact.phones[0]}

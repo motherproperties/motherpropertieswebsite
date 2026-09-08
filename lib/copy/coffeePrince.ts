@@ -1,284 +1,505 @@
 /**
  * Coffee Prince content module
- * Edit this file to update Coffee Prince microsite content
+ * Edit this file to update Coffee Prince project page content
  */
 
-import { FAQItem, Phase, Amenity, GalleryImage, Feature, CropInfo } from '../types';
+import {
+  FAQItem,
+  Phase,
+  Amenity,
+  GalleryImage,
+  Feature,
+  CropInfo,
+  AtAGlanceFact,
+  OwnershipComparison,
+  DocumentationStep,
+  ManagementModel,
+} from '../types';
 
 export const coffeePrinceContent = {
   hero: {
     logo: '/images/coffee_prince_logo_gold_transparent_4000.png',
-    headline: 'Coffee Prince – Managed Coffee Farmlands in the Western Ghats',
+    headline: 'Coffee Prince — Managed Coffee Farmland Near Sakleshpur',
     subheadline:
-      'Titled, curated coffee farmlands in the Sakleshpur region, blending natural beauty and modern lifestyle',
-    badges: ['Managed Farmland', 'Sakleshpur, Western Ghats', 'Approx. 35+ Acres'],
-    taglines: ['GREEN IS THE NEW GOLD', 'NATURE IS THE NEW LUXURY'],
+      'Review the proposed sale-deed and coffee plantation management model. Current documents and availability require independent confirmation.',
+    badges: ['Managed Farmland', 'Sakleshpur Region', 'Facts Subject to Verification'],
     backgroundImage: '/images/Coffee-plantation.jpg',
+    primaryCTA: {
+      text: 'Book a Site Visit',
+      href: '#site-visit',
+    },
+    secondaryCTA: {
+      text: 'Get the Catalogue',
+      href: '#catalogue',
+    },
   },
+
+  atAGlance: [
+    {
+      icon: 'MapPin',
+      label: 'Location',
+      value: 'Sakleshpur, Western Ghats',
+      disclaimer: 'Hassan district, Karnataka',
+    },
+    {
+      icon: 'Mountain',
+      label: 'Project Area',
+      value: 'Approx. 35 Acres',
+      disclaimer: 'Published project material; request current records',
+    },
+    {
+      icon: 'Ruler',
+      label: 'Plot Sizes',
+      value: 'From ~6,000 sq.ft.',
+      disclaimer: 'Subject to current availability',
+    },
+    {
+      icon: 'Sprout',
+      label: 'Crop Mix',
+      value: 'Coffee + Pepper + Arecanut',
+    },
+    {
+      icon: 'Car',
+      label: 'Drive from Bangalore',
+      value: '~4 Hours',
+      disclaimer: 'Via NH75 / Hassan',
+    },
+    {
+      icon: 'FileCheck',
+      label: 'Ownership',
+      value: 'Sale Deed Model',
+      disclaimer: 'Subject to independent legal verification',
+    },
+  ] as AtAGlanceFact[],
+
   snapshot: {
-    title: 'Project Snapshot',
+    title: 'About Coffee Prince',
     intro:
-      'Coffee Prince offers titled farmlands in a scenic Western Ghats plantation belt, ideal for those seeking a nature-led lifestyle combined with long-term asset growth.',
+      'Coffee Prince is a managed farmland project in the Sakleshpur region, offering titled plots with professional coffee plantation management.',
     blocks: [
       {
         title: 'Project',
         description:
-          'Coffee Prince by Mother Properties is a premium managed farmland development offering curated coffee estates with modern amenities and professional management.',
+          'Coffee Prince by Mother Properties is a managed farmland development offering titled coffee estate plots with professional farm management in the Western Ghats.',
       },
       {
         title: 'Developer',
         description:
-          'Mother Properties is a real estate brand with a proven track record of delivering curated, value-driven projects focused on trust, transparency, and customer satisfaction.',
+          'Mother Properties is a Bangalore-based property consultancy led by founder Suresh Robert. Request current company and project references where relevant.',
       },
       {
         title: 'Location',
         description:
-          'Located in the Sakleshpur belt of the Western Ghats, known for its misty hills, lush coffee plantations, and rich biodiversity. The region offers a perfect blend of natural beauty and accessibility.',
+          'Located in the Sakleshpur belt of the Western Ghats, approximately 4 hours from Bangalore. The region is known for its coffee plantations, misty hills and biodiversity.',
       },
       {
-        title: 'Scale & Plots',
+        title: 'Plots & Ownership',
         description:
-          'Approximately 35+ acres of curated farmland with multiple plot sizes to suit various preferences and investment goals.',
+          'Published material describes approximately 35 acres and plot sizes from about 6,000 sq.ft. Availability, extent and ownership documents must be independently verified.',
       },
     ],
   },
+
+  ownership: {
+    whatYouOwn: [
+      {
+        label: 'Proposed Registered Ownership',
+        description: 'The proposed model is registration and mutation in the buyer’s name, subject to eligibility, document review and completion of the transaction.',
+      },
+      {
+        label: 'Your Plot',
+        description:
+          'A demarcated plot with defined boundaries within the Coffee Prince estate.',
+      },
+      {
+        label: 'Construction Rights',
+        description:
+          'Subject to local regulations, zoning and required permissions. Consult legal counsel before construction.',
+      },
+    ],
+    whatIsManaged: [
+      {
+        label: 'Coffee Cultivation',
+        description:
+          'Planting, maintenance, harvesting and processing of coffee on your plot by the farm management team.',
+      },
+      {
+        label: 'Pepper & Arecanut',
+        description:
+          'Intercropping of pepper and long-term arecanut cultivation managed alongside coffee.',
+      },
+      {
+        label: 'Estate Maintenance',
+        description:
+          'Common area upkeep, access roads, water systems and general estate operations.',
+      },
+    ],
+    whatIsPlanned: [
+      {
+        label: 'Resort & Villa Concept',
+        description:
+          'A conceptual eco-resort with cottages, pool and community amenities. Subject to development progress, regulatory approvals and owner interest.',
+      },
+      {
+        label: 'Community Experiences',
+        description:
+          'Plantation tours, nature trails and curated activities. Planned as estate development progresses.',
+      },
+      {
+        label: 'Rental Programme',
+        description:
+          'A potential managed rental programme for owners who build villas. Conceptual — details to be finalised.',
+      },
+    ],
+  } as OwnershipComparison,
+
+  documentation: [
+    {
+      step: 1,
+      title: 'Title Verification',
+      description:
+        'Review of title documents, encumbrance certificates and ownership history. We recommend buyers also engage independent legal counsel.',
+      icon: 'FileCheck',
+    },
+    {
+      step: 2,
+      title: 'Sale Agreement',
+      description:
+        'Agreement of sale drafted with terms, payment schedule and timeline. Reviewed by both parties.',
+      icon: 'FileText',
+    },
+    {
+      step: 3,
+      title: 'Registration & Mutation',
+      description:
+        'Sale deed registration at the sub-registrar office followed by mutation of land records in the buyer\'s name.',
+      icon: 'Stamp',
+    },
+    {
+      step: 4,
+      title: 'Handover & Management',
+      description:
+        'Plot handover with boundary demarcation. Farm management begins with regular updates to the owner.',
+      icon: 'Key',
+    },
+  ] as DocumentationStep[],
+
+  management: {
+    activities: [
+      {
+        activity: 'Soil preparation & planting',
+        frequency: 'Initial setup + seasonal',
+        managedBy: 'Farm management team',
+      },
+      {
+        activity: 'Coffee plant maintenance',
+        frequency: 'Year-round',
+        managedBy: 'Farm management team',
+      },
+      {
+        activity: 'Pepper & arecanut intercropping',
+        frequency: 'Seasonal',
+        managedBy: 'Farm management team',
+      },
+      {
+        activity: 'Harvesting & processing',
+        frequency: 'Annual (Oct–Feb for coffee)',
+        managedBy: 'Farm management team',
+      },
+      {
+        activity: 'Estate maintenance (roads, water)',
+        frequency: 'Ongoing',
+        managedBy: 'Estate operations team',
+      },
+      {
+        activity: 'Owner updates & reporting',
+        frequency: 'Quarterly / as needed',
+        managedBy: 'Mother Properties',
+      },
+    ],
+    updateMechanism:
+      'The reporting channel and frequency must be confirmed in the signed management agreement. Ask for the current update process and recent examples.',
+    ownerResponsibilities: [
+      'Payment of applicable property taxes and government levies',
+      'Participation in management fee contributions as agreed',
+      'Compliance with estate community guidelines',
+      'Obtaining independent legal and financial advice as needed',
+    ],
+    fees: 'Management fees apply and are detailed during the purchase discussion. Contact us for the current fee structure.',
+    exclusions: [
+      'Construction of individual villas/structures (owner\'s responsibility, subject to approvals)',
+      'Individual crop yield guarantees — yields depend on weather, soil and market conditions',
+      'Legal and tax advice — owners should engage their own professionals',
+      'Insurance for individual plots — recommended but arranged by the owner',
+    ],
+  } as ManagementModel,
+
   directorAngle: {
     summary:
-      'Coffee Prince is led by the same vision from Suresh Robert that drives Mother Properties—combining real estate expertise with tourism and nature experiences to create secure, well-managed, eco-friendly estates.',
-    cta: { text: 'Read Full Director Message', href: '/about' },
+      'Coffee Prince reflects a nature-led farmland vision. Our aim is to help buyers evaluate a proposed registered-ownership and management model with transparent documentation — not to promise returns.',
+    cta: { text: 'Read the Founder\'s Story', href: '/about' },
   },
+
   whyManagedFarmlands: {
-    title: 'Why Managed Farmlands',
+    title: 'What Is Managed Farmland?',
     intro:
-      'Managed farmland is a concept where you own the land while experts handle cultivation and upkeep. It offers the best of both worlds—ownership benefits and hassle-free management.',
+      'Managed farmland generally combines a registered land interest with a separate operating agreement for cultivation and upkeep. The exact ownership and service obligations must be confirmed in the parcel documents and signed agreements.',
     features: [
       {
         icon: 'Sprout',
-        title: 'Sustainable Living',
+        title: 'Own Land, Not Responsibilities',
         description:
-          'Connect with nature while building a legacy asset. Enjoy the peace of farmland ownership without daily operational responsibilities.',
+          'Review the proposed registered ownership while the management agreement defines day-to-day farming operations.',
       },
       {
         icon: 'TrendingUp',
-        title: 'Investment Growth',
+        title: 'Agricultural Asset',
         description:
-          'Agricultural land in premium locations offers long-term appreciation potential along with possible income from crops.',
+          'Agricultural land in the Western Ghats with active cultivation. Note: land values and crop yields can vary and are not guaranteed.',
       },
       {
         icon: 'Users',
-        title: 'Community & Lifestyle',
+        title: 'Community of Owners',
         description:
-          'Be part of a community of like-minded individuals who value nature, sustainability, and quality of life.',
+          'Be part of an estate with other like-minded owners who value nature, sustainability and the Western Ghats lifestyle.',
       },
       {
         icon: 'Leaf',
-        title: 'Eco-Friendly Practices',
+        title: 'Sustainable Farming',
         description:
-          'Sustainable farming methods that preserve soil health, promote biodiversity, and protect the natural ecosystem.',
+          'Coffee, pepper and arecanut grown using practices that focus on soil health, water balance and ecosystem preservation.',
       },
     ] as Feature[],
     additionalInfo:
-      'The Western Ghats climate and coffee/spice culture create an ideal environment for building a long-term legacy asset that connects you with nature.',
+      'The Western Ghats climate is well-suited for coffee and spice cultivation. Our management model is designed for owners who want land ownership without farming expertise.',
   },
+
   estateHighlights: {
     title: 'Estate Highlights',
     highlights: [
       {
         icon: 'FileCheck',
-        title: 'Titled Land',
-        description: 'Secure, clear ownership with proper documentation and legal title transfer.',
+        title: 'Ownership Documentation',
+        description:
+          'The proposed pathway includes sale-deed registration and mutation, subject to eligibility, parcel records, transaction completion and independent legal review.',
       },
       {
         icon: 'Maximize',
-        title: 'Plot Variants',
-        description: 'Plots from approximately 6,000 sq.ft upwards to suit various preferences.',
+        title: 'Plot Options',
+        description:
+          'Plots from approximately 6,000 sq.ft. Multiple sizes available. Subject to current inventory.',
       },
       {
         icon: 'Droplets',
         title: 'Water & Power',
-        description: 'Sustainably planned infrastructure with reliable water sources and power supply.',
+        description:
+          'Water sources and power infrastructure assessed as part of our project evaluation.',
       },
       {
         icon: 'MapPin',
-        title: 'Connectivity',
+        title: 'Accessibility',
         description:
-          'Accessible by road, approximately a few hours\' drive from Bangalore, making it perfect for weekend getaways.',
+          'Indicatively about 4 hours from Bangalore via NH75. Travel time and all-season legal access should be checked during due diligence.',
       },
       {
         icon: 'Trees',
-        title: 'Biodiversity',
+        title: 'Western Ghats Setting',
         description:
-          'Rich flora and fauna with coffee, spices, and evergreen terrain creating a vibrant ecosystem.',
+          'Located in a coffee and spice growing belt with rich biodiversity, misty hills and evergreen terrain.',
       },
     ] as Feature[],
   },
+
   farmingModel: {
     title: 'Farming Model',
-    subtitle: 'Growing Prosperity Through Nature\'s Rhythm',
+    subtitle: 'Three-Crop Cultivation Strategy',
     intro:
-      'Coffee as the primary crop, with intercropped pepper and long-term arecanut cultivation, creating a balanced and sustainable agricultural ecosystem.',
+      'Coffee as the primary crop with intercropped pepper and long-term arecanut cultivation. This diversified approach is designed for sustainable productivity — not guaranteed returns.',
     crops: [
       {
         name: 'Coffee',
-        description: 'Builds medium-term cash flow as plants mature and begin yielding quality beans.',
+        description:
+          'The primary crop. Coffee plants take 3–5 years to mature and yield varies based on weather, soil and management practices.',
         icon: 'Coffee',
       },
       {
         name: 'Pepper',
         description:
-          'Climbs on existing trees and boosts annual income with minimal additional land use.',
+          'Intercropped on existing shade trees. Pepper provides an additional harvest with minimal additional land use.',
         icon: 'Leaf',
       },
       {
         name: 'Arecanut',
         description:
-          'A long-term crop that strengthens overall asset value and provides sustained returns.',
+          'A long-term crop that complements the coffee and pepper cultivation. Takes several years to mature.',
         icon: 'TreePine',
       },
     ] as CropInfo[],
+    disclaimer:
+      'Crop yields depend on weather, soil conditions, market prices and management practices. Mother Properties does not guarantee specific yields, income or returns from farming activities.',
     additionalInfo:
-      'Our farming model focuses on soil health, water balance, and sustainable yield, ensuring the land remains productive and valuable for generations.',
+      'Our farm management team follows sustainable practices focused on soil health and water balance. Owners receive updates on cultivation activities and seasonal progress.',
   },
+
   resortModel: {
-    title: 'Resort Model',
-    subtitle: 'Dual-Benefit Investment',
+    title: 'Resort & Villa Concept',
+    subtitle: 'Proposed — Subject to Development Progress',
     intro:
-      'A central eco-resort concept at the heart of the estate offers hospitality, club-like amenities, and nature experiences. Farmland plots surround this core, where owners can build private villas or holiday homes.',
+      'A conceptual eco-resort at the heart of the estate, with cottages, community amenities and nature experiences. Farmland plots surround this planned core.',
     benefits: [
-      'Vacation Home Privileges – Use your villa as a personal retreat',
-      'Potential Rental Returns – Participate in a managed rental program for income',
-      'Dual-Benefit – Enjoy both personal use and income generation',
-      'Estate-Led Community & Experiences – Access to resort amenities and curated activities',
+      'Personal retreat — Use your villa as a weekend getaway (subject to construction approvals)',
+      'Potential rental participation — A managed rental programme is being explored for willing owners',
+      'Community amenities — Access to planned common facilities as they are developed',
+      'Nature experiences — Plantation walks, trails and curated activities (as developed)',
     ],
     disclaimer:
-      'This is a conceptual resort model and details may change based on development progress and regulatory requirements.',
+      'This is a conceptual resort model. Amenities, timelines and rental arrangements are proposed and subject to development progress, regulatory approvals and owner interest. Do not treat this as a commitment or a delivered facility.',
   },
+
   phases: [
     {
       title: 'Phase 1',
       subtitle: 'Land Acquisition & Plantation Setup',
       description:
-        'Securing titled land and establishing coffee plantations with proper soil preparation and initial planting.',
-      status: 'completed',
+        'Land and initial plantation setup described in the project plan. Current status requires dated evidence.',
+      verifiedDate: 'Current status requires dated on-ground evidence',
     },
     {
       title: 'Phase 2',
       subtitle: 'Infrastructure Development',
       description:
-        'Building roads, water systems, power supply, and internal amenity planning to support the estate.',
-      status: 'in-progress',
+        'Internal roads, water systems, power supply and estate access improvements.',
+      verifiedDate: 'Current status requires dated on-ground evidence',
     },
     {
       title: 'Phase 3',
-      subtitle: 'Resort & Villa Program Rollout',
+      subtitle: 'Resort & Villa Programme',
       description:
-        'Developing the central eco-resort and enabling villa construction for owners who wish to build.',
-      status: 'in-progress',
+        'Development of the central resort concept and enabling villa construction for interested owners. Subject to regulatory approvals.',
+      status: 'planning' as const,
+      verifiedDate: 'Conceptual — timelines to be confirmed',
     },
     {
       title: 'Phase 4',
-      subtitle: 'Community Activities & Experience Expansion',
+      subtitle: 'Community & Experience Expansion',
       description:
-        'Launching community programs, nature experiences, and additional amenities for owners and guests.',
-      status: 'planning',
+        'Nature experiences, community activities and additional amenities as the estate develops.',
+      status: 'planning' as const,
+      verifiedDate: 'Planned — dependent on earlier phases',
     },
   ] as Phase[],
+
   layoutAndAmenities: {
-    layoutNote: 'Conceptual Layout – not to scale',
+    layoutNote: 'Conceptual Layout — not to scale. Subject to change based on development progress.',
     amenities: [
-      { name: 'Cottages / Villas', icon: 'Home' },
-      { name: 'Swimming Pool', icon: 'Waves' },
-      { name: 'Indoor Games', icon: 'Gamepad2' },
-      { name: 'Outdoor Games', icon: 'Trophy' },
-      { name: 'Children\'s Play Area', icon: 'Baby' },
-      { name: 'Plantation Walks & Trails', icon: 'Footprints' },
-      { name: 'Bonfire / Community Spaces', icon: 'Flame' },
-      { name: '& many more curated experiences' },
+      { name: 'Cottages / Villas', icon: 'Home', description: 'Proposed — subject to approvals' },
+      { name: 'Swimming Pool', icon: 'Waves', description: 'Proposed' },
+      { name: 'Indoor Games', icon: 'Gamepad2', description: 'Proposed' },
+      { name: 'Outdoor Games', icon: 'Trophy', description: 'Proposed' },
+      { name: 'Children\'s Play Area', icon: 'Baby', description: 'Proposed' },
+      { name: 'Plantation Walks & Trails', icon: 'Footprints', description: 'Planned' },
+      { name: 'Community Spaces', icon: 'Flame', description: 'Planned' },
     ] as Amenity[],
     disclaimer:
-      'Layout and amenities are conceptual and subject to refinement based on development progress and owner feedback.',
+      'All amenities shown are conceptual and subject to development progress, regulatory approvals and owner interest. Do not treat proposed amenities as delivered or committed facilities.',
   },
+
   quote: {
-    text: 'Between the hills and the mist lies a quiet promise of peace, growth, and belonging.',
+    text: 'Between the hills and the mist lies a quiet promise of peace, growth and belonging.',
     backgroundImage: '/images/Coffee-plantation.jpg',
   },
+
   gallery: [
     {
       src: '/images/Coffee-plantation.jpg',
-      alt: 'Lush coffee plantation in the Western Ghats',
+      alt: 'Coffee plantation in the Western Ghats',
+      caption: 'Coffee cultivation in the Sakleshpur region',
       creditLabel: 'Western Ghats Coffee Estate',
     },
     {
-      src: '/images/1547099542_blogs_5_incredible_experiences_in_indias_western_ghats.jpg',
-      alt: 'Misty hills and tea gardens of Sakleshpur',
-      creditLabel: 'Western Ghats Tourism',
-    },
-    {
       src: '/images/lifestyle-nature.jpg',
-      alt: 'Sustainable farming practices in the estate',
+      alt: 'Nature and farming in the estate',
+      caption: 'Sustainable farming practices',
       creditLabel: 'Eco-Tourism Western Ghats',
     },
     {
       src: '/images/hero.jpg',
-      alt: 'Panoramic view of Coffee Prince landscape',
+      alt: 'Panoramic view of the Coffee Prince estate area',
+      caption: 'Coffee Prince estate landscape',
       creditLabel: 'Coffee Prince Estate',
     },
-    {
-      src: '/images/WhatsApp Image 2025-10-18 at 18.24.15_acd64f1d.jpg',
-      alt: 'Community gathering at Coffee Prince resort',
-      creditLabel: 'Coffee Prince Community',
-    },
+    // Removed: WhatsApp Image 2025-10-18 — file missing from public/images (PRD §2)
   ] as GalleryImage[],
+
   faq: [
     {
-      question: 'What is a managed coffee farmland?',
+      question: 'What is Coffee Prince?',
       answer:
-        'A managed coffee farmland is a property where you own titled agricultural land with coffee cultivation. Professional farm managers handle all cultivation, maintenance, and operations while you enjoy ownership benefits and potential returns.',
+        'Coffee Prince is a managed farmland project by Mother Properties, located in the Sakleshpur region of the Western Ghats. It offers titled coffee estate plots with professional farm management.',
     },
     {
-      question: 'How does Coffee Prince\'s farming model work?',
+      question: 'How does the farming model work?',
       answer:
-        'We use a three-crop strategy: coffee as the primary crop for medium-term returns, pepper intercropped for annual income, and arecanut for long-term value. This diversified approach ensures sustainable productivity and balanced returns.',
+        'We use a three-crop approach: coffee as the primary crop, pepper intercropped for diversity, and arecanut as a long-term cultivation. Professional farm managers handle all operations. Yields vary and are not guaranteed.',
     },
     {
-      question: 'What does Mother Properties manage vs. what is the owner\'s responsibility?',
+      question: 'What documentation do I receive?',
       answer:
-        'Mother Properties handles all farming operations, maintenance, and management. As an owner, you simply enjoy the benefits of ownership, visit your property, and receive updates on farm activities and yields.',
+        'Buyers receive a registered sale deed, encumbrance certificate, tax receipts and mutation records. We facilitate the process through licensed professionals and recommend independent legal verification.',
     },
     {
-      question: 'How often can I visit, and are there stay options?',
+      question: 'What does Mother Properties manage vs. what is my responsibility?',
       answer:
-        'You can visit your property anytime. The resort model concept includes accommodations and amenities for comfortable stays, allowing you to enjoy your farmland as a weekend retreat.',
+        'Mother Properties manages all farming operations, estate maintenance and provides owner updates. Owners are responsible for property taxes, management fee contributions, any construction they choose to undertake (subject to approvals), and their own legal and tax advice.',
     },
     {
-      question: 'What are the basics of the resort model?',
+      question: 'How often can I visit?',
       answer:
-        'The resort model features a central eco-resort with hospitality amenities surrounded by farmland plots. Owners can build villas and optionally participate in a managed rental program for dual benefits—personal use and income.',
+        'Visits are subject to access conditions, estate rules and scheduling. Prospective buyers can request a guided visit before making travel arrangements.',
     },
     {
-      question: 'How is title and documentation handled?',
+      question: 'What about the resort and villa concept?',
       answer:
-        'All plots come with clear, titled ownership. We provide complete legal documentation, title transfer support, and ensure all regulatory requirements are met for secure ownership.',
+        'The resort and villa concept is proposed and subject to development progress, regulatory approvals and owner interest. It is not a delivered facility. Contact us for the current status.',
     },
     {
-      question: 'How is this different from a normal plotted layout?',
+      question: 'How is title verification done?',
       answer:
-        'Unlike typical plotted developments, Coffee Prince is a working farmland with active cultivation, professional management, and a focus on agricultural productivity alongside lifestyle amenities. It\'s an investment in both land and a sustainable farming ecosystem.',
+        'We review title documents, encumbrance certificates and ownership history. However, this is our internal review — we strongly recommend that all buyers engage independent legal counsel for their own due diligence.',
     },
     {
-      question: 'What is the location and how do I get there?',
+      question: 'What are the risks?',
       answer:
-        'Coffee Prince is located in the Sakleshpur region of the Western Ghats, accessible by road from Bangalore. The scenic drive takes approximately a few hours, making it perfect for weekend visits.',
+        'As with any agricultural land, risks include weather variability, crop yield fluctuations, market price changes, regulatory changes and development timeline uncertainties. We do not guarantee returns or appreciation. Buyers should assess their own risk tolerance and seek professional advice.',
+    },
+    {
+      question: 'Can I build on my plot?',
+      answer:
+        'Construction is subject to local zoning regulations, land-use classification and required permissions. Buyers must obtain their own approvals and consult legal counsel before any construction.',
+    },
+    {
+      question: 'What is the cancellation and refund policy?',
+      answer:
+        'Cancellation and refund terms are specified in the sale agreement. Contact us for details on the current policy before making any commitments.',
+    },
+    {
+      question: 'How do I get to Coffee Prince?',
+      answer:
+        'Coffee Prince is located in the Sakleshpur region, approximately 4 hours from Bangalore via NH75 through Hassan. We can help with route guidance and organise pickup for site visits.',
     },
   ] as FAQItem[],
+
   siteVisit: {
-    title: 'Experience the Beauty of Coffee Prince',
-    subtitle: 'Plan a Site Visit',
+    title: 'Visit Coffee Prince',
+    subtitle: 'See the Land Before You Decide',
     description:
-      'Join us for guided tours, plantation walks, and an on-ground understanding of what makes Coffee Prince special. Experience the misty hills, coffee aroma, and natural beauty firsthand.',
+      'Schedule a guided site visit to walk the land, meet the farm team, understand the documentation process and experience the Western Ghats setting. No obligation.',
     cta: {
-      primary: { text: 'Plan a Site Visit', href: '/contact?interest=coffeeprince' },
-      whatsapp: { text: 'WhatsApp Us', href: 'https://wa.me/919845042789' },
+      primary: { text: 'Book a Site Visit', href: '#site-visit-form' },
+      whatsapp: {
+        text: 'WhatsApp Us',
+        href: 'https://wa.me/919845042789?text=Hi%2C%20I%20would%20like%20to%20schedule%20a%20site%20visit%20to%20Coffee%20Prince%20near%20Sakleshpur.',
+      },
       call: { text: 'Call Us', href: 'tel:+919845042789' },
     },
   },

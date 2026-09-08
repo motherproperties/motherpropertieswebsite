@@ -21,10 +21,6 @@ const backgroundClasses = {
 export function Section({ children, className = '', background = 'white', id }: SectionProps) {
   return (
     <section id={id} className={`py-20 md:py-32 ${backgroundClasses[background]} ${className}`}>
-      {/* Decorative Elements for Specific Backgrounds */}
-      {background === 'cream' && (
-        <div className="absolute inset-0 opacity-40 mix-blend-multiply pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"></div>
-      )}
       {background === 'green' && (
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-forest-700 to-transparent"></div>
       )}
