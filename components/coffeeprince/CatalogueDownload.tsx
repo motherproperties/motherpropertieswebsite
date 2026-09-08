@@ -1,29 +1,37 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, CheckCircle } from 'lucide-react';
+import { createSubmissionId, getLeadAttribution } from '@/lib/leadClient';
+import { trackConversion } from '@/lib/analytics';
 
 export function CatalogueDownload() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    consent: false,
+    website: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const submissionId = useRef(createSubmissionId());
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'checkbox' ? e.target.checked : value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formData.consent) return;
     setIsLoading(true);
+    setSubmitError('');
 
     try {
       // Send form data to API
@@ -32,16 +40,19 @@ export function CatalogueDownload() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          ...getLeadAttribution(),
+          submissionId: submissionId.current,
+        }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to process request');
-      }
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Failed to process request');
 
       // Trigger PDF download
       const link = document.createElement('a');
-      link.href = '/images/Coffee_Prince_Catalog_Mother_Properties.pdf';
+      link.href = result.catalogueUrl;
       link.download = 'Coffee_Prince_Catalogue.pdf';
       document.body.appendChild(link);
       link.click();
@@ -49,15 +60,17 @@ export function CatalogueDownload() {
 
       // Show success message
       setIsSubmitted(true);
+      trackConversion('catalogue_downloaded');
 
       // Reset after 3 seconds
       setTimeout(() => {
         setIsSubmitted(false);
-        setFormData({ name: '', email: '', phone: '' });
+        setFormData({ name: '', email: '', phone: '', consent: false, website: '' });
+        submissionId.current = createSubmissionId();
       }, 3000);
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Error downloading catalogue. Please try again.');
+      setSubmitError(error instanceof Error ? error.message : 'Error downloading catalogue.');
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +86,7 @@ export function CatalogueDownload() {
           <h3 className="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-2">
             Download Coffee Prince Catalogue
           </h3>
-          <p className="text-gray-600">Get detailed information about our project, pricing, and investment opportunities.</p>
+          <p className="text-gray-600">Review the published project overview, concept and contact details. Confirm current facts and availability with our team.</p>
         </div>
 
         {isSubmitted ? (
@@ -90,6 +103,17 @@ export function CatalogueDownload() {
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="catalogue-website">Website</label>
+              <input
+                id="catalogue-website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                 Full Name <span className="text-red-500">*</span>
@@ -104,6 +128,22 @@ export function CatalogueDownload() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest-500 focus:border-transparent outline-none transition"
                 placeholder="Your full name"
               />
+            </div>
+
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="catalogue-consent"
+                name="consent"
+                checked={formData.consent}
+                onChange={handleChange}
+                required
+                className="mt-1 h-4 w-4 accent-forest-500"
+              />
+              <label htmlFor="catalogue-consent" className="text-xs text-gray-600">
+                I agree to receive the catalogue and related project communication.
+                Read the <a href="/privacy/" className="underline">privacy policy</a>.
+              </label>
             </div>
 
             <div>
@@ -140,15 +180,19 @@ export function CatalogueDownload() {
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !formData.consent}
               className="w-full bg-forest-500 hover:bg-forest-600 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Download className="w-5 h-5" />
               {isLoading ? 'Processing...' : 'Download Catalogue'}
             </button>
 
+            {submitError && (
+              <p role="alert" className="text-sm text-red-700 text-center">{submitError}</p>
+            )}
+
             <p className="text-xs text-gray-500 text-center">
-              We respect your privacy. Your information will only be used to send you the catalogue and project updates.
+              Your request is recorded before the download begins.
             </p>
           </form>
         )}

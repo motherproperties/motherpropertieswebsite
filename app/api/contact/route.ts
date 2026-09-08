@@ -1,129 +1,120 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { createLead, escapeHtml, isHoneypotFilled } from '@/lib/leads';
+import {
+  BaseLeadPayload,
+  guardLeadRequest,
+  saveNotificationResult,
+  validateBaseLead,
+} from '@/lib/leadRequest';
+import { sendEmailWithRetry } from '@/lib/email';
+import type { FormType, LeadIntent } from '@/lib/types';
 
-// Email configuration
-const RECIPIENT_EMAIL = 'motherpropertiesblr@gmail.com';
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const runtime = 'nodejs';
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
-  interestedIn: string;
-  message: string;
+interface ContactPayload extends BaseLeadPayload {
+  formType?: string;
 }
 
-export async function POST(request: NextRequest) {
-  try {
-    const body: ContactFormData = await request.json();
+const intentMap: Record<string, LeadIntent> = {
+  weekend_home: 'weekend_home',
+  farmland_ownership: 'farmland_ownership',
+  investment_research: 'investment_research',
+  nri_enquiry: 'nri_enquiry',
+  property_consultancy: 'property_consultancy',
+  other: 'other',
+};
 
-    // Validate the data
-    if (!body.name || !body.email || !body.phone || !body.message) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+const formTypeMap: Record<string, FormType> = {
+  lead_magnet: 'lead_magnet',
+  callback_request: 'callback_request',
+  contact: 'contact',
+};
+
+export async function POST(request: NextRequest) {
+  const blocked = guardLeadRequest(request);
+  if (blocked) return blocked;
+
+  try {
+    const body = await request.json() as ContactPayload;
+    if (isHoneypotFilled(body.website)) {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
+    const validationError = validateBaseLead(body);
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    // Send email using fetch to a third-party service
-    // For now, we'll use Resend (free tier available) or a simple in-memory approach
-    
-    // Option 1: Using a simple approach - store in memory or log
-    // In production, integrate with SendGrid, AWS SES, Resend, or similar
-    console.log('Contact form submission:', {
-      timestamp: new Date().toISOString(),
-      ...body,
+    const formType = formTypeMap[body.formType || ''] || 'contact';
+    const intent = intentMap[body.intent || ''] || 'other';
+    const result = await createLead({
+      submissionId: body.submissionId,
+      name: body.name!,
+      email: body.email!,
+      phone: body.phone!,
+      city: body.city,
+      country: body.country,
+      intent,
+      budgetRange: body.budgetRange,
+      preferredContactMethod: body.preferredContactMethod,
+      preferredCallTime: body.preferredCallTime,
+      projectInterest: body.interestedIn,
+      message: body.message,
+      source: body.source || 'website',
+      landingPage: body.landingPage || '/contact/',
+      utmSource: body.utmSource,
+      utmMedium: body.utmMedium,
+      utmCampaign: body.utmCampaign,
+      utmTerm: body.utmTerm,
+      utmContent: body.utmContent,
+      referrer: body.referrer,
+      formType,
+      consentGiven: true,
     });
 
-    // Prepare email content
-    const emailSubject = `New Contact Inquiry from ${body.name}`;
-    const emailBody = `
-Dear Mother Properties Team,
+    if (!result.created) {
+      return NextResponse.json({ success: true, leadId: result.lead.id, duplicate: true });
+    }
 
-You have received a new contact inquiry:
+    const lead = result.lead;
+    const notificationEmail = process.env.LEAD_NOTIFICATION_EMAIL;
+    const adminResult = notificationEmail
+      ? await sendEmailWithRetry({
+          to: notificationEmail,
+          subject: `New website enquiry - ${lead.name}`,
+          text: `Lead ${lead.id}\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone}\nIntent: ${lead.intent}\nSource: ${lead.source}\nMessage: ${lead.message || '(No message)'}`,
+          html: `<h2>New website enquiry</h2><p>Lead ID: ${lead.id}</p><p><strong>Name:</strong> ${escapeHtml(lead.name)}</p><p><strong>Email:</strong> ${escapeHtml(lead.email)}</p><p><strong>Phone:</strong> ${escapeHtml(lead.phone)}</p><p><strong>Intent:</strong> ${escapeHtml(lead.intent)}</p><p><strong>Source:</strong> ${escapeHtml(lead.source)}</p><p><strong>Message:</strong> ${escapeHtml(lead.message || '(No message)')}</p>`,
+        })
+      : { sent: false, attempts: 0, error: 'Lead notification recipient is not configured' };
+    await saveNotificationResult(lead, adminResult);
 
-Name: ${body.name}
-Email: ${body.email}
-Phone: ${body.phone}
-Interested In: ${body.interestedIn}
+    const isGuide = formType === 'lead_magnet';
+    const userText = isGuide
+      ? `Dear ${lead.name},\n\nYour managed farmland due-diligence guide is available at https://www.motherproperties.net/buyer-guide/\n\nCoffee Prince catalogue: https://www.motherproperties.net/images/Coffee_Prince_Catalog_Mother_Properties.pdf\n\nMother Properties`
+      : `Dear ${lead.name},\n\nWe have recorded your enquiry. A member of the Mother Properties team will contact you using your selected method.\n\nMother Properties`;
+    const userResult = await sendEmailWithRetry({
+      to: lead.email,
+      subject: isGuide
+        ? 'Your managed farmland buyer guide'
+        : 'We received your Mother Properties enquiry',
+      text: userText,
+      html: userText.split('\n').map((line) => `<p>${escapeHtml(line)}</p>`).join(''),
+    });
 
-Message:
-${body.message}
-
----
-This inquiry was submitted via the website contact form.
-Please respond to: ${body.email}
-    `.trim();
-
-    // Store submission in a simple way (in production, use a database)
-    // For now, log it to console and would be captured in server logs
-    
-    // Send confirmation email to user
-    await sendEmailNotification(
-      body.email,
-      'Thank you for contacting Mother Properties',
-      generateUserConfirmationEmail(body.name)
-    );
-
-    // Send notification to admin
-    await sendEmailNotification(
-      RECIPIENT_EMAIL,
-      emailSubject,
-      emailBody
-    );
-
-    return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Your message has been sent successfully. We will get back to you soon!' 
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      success: true,
+      leadId: lead.id,
+      emailSent: userResult.sent,
+      guideUrl: isGuide ? '/buyer-guide/' : undefined,
+      catalogueUrl: isGuide
+        ? '/images/Coffee_Prince_Catalog_Mother_Properties.pdf'
+        : undefined,
+      message: 'Your enquiry has been recorded.',
+    });
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('[CONTACT] Request failed:', error);
     return NextResponse.json(
-      { error: 'Failed to send message. Please try again.' },
+      { error: 'We could not record your request. Please call or WhatsApp us.' },
       { status: 500 }
     );
   }
-}
-
-async function sendEmailNotification(
-  to: string,
-  subject: string,
-  body: string
-): Promise<void> {
-  try {
-    const result = await resend.emails.send({
-      from: 'Mother Properties <onboarding@resend.dev>',
-      to,
-      subject,
-      text: body,
-      html: body.replace(/\n/g, '<br>'),
-    });
-    console.log(`Email sent successfully to ${to}:`, result);
-  } catch (error) {
-    console.error(`Failed to send email to ${to}:`, error);
-    throw error;
-  }
-}
-
-function generateUserConfirmationEmail(name: string): string {
-  return `
-Dear ${name},
-
-Thank you for reaching out to Mother Properties! We have received your inquiry and will get back to you shortly.
-
-Our team typically responds within 24-48 business hours.
-
-In the meantime, feel free to explore our website to learn more about our projects:
-- Coffee Prince: https://www.motherproperties.net/coffeeprince
-- About Us: https://www.motherproperties.net/about
-- All Projects: https://www.motherproperties.net/projects
-
-Best regards,
-Mother Properties Team
-${'+91 98450 42789 | +91 90350 51133'}
-motherpropertiesblr@gmail.com
-  `.trim();
 }

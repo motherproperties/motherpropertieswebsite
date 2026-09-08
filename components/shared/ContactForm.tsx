@@ -4,8 +4,10 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { createSubmissionId, getLeadAttribution } from '@/lib/leadClient';
+import { trackConversion } from '@/lib/analytics';
 
 interface ContactFormProps {
   defaultInterest?: string;
@@ -17,6 +19,13 @@ interface FormData {
   phone: string;
   interestedIn: string;
   message: string;
+  city: string;
+  intent: string;
+  budgetRange: string;
+  preferredContactMethod: string;
+  preferredCallTime: string;
+  consent: boolean;
+  website: string;
 }
 
 const inputBaseClasses = "w-full px-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-forest-500 transition-colors outline-none text-gray-900 placeholder-transparent peer";
@@ -27,6 +36,7 @@ interface FormErrors {
   email?: string;
   phone?: string;
   message?: string;
+  consent?: string;
 }
 
 export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
@@ -36,7 +46,15 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
     phone: '',
     interestedIn: defaultInterest,
     message: '',
+    city: '',
+    intent: '',
+    budgetRange: '',
+    preferredContactMethod: 'phone',
+    preferredCallTime: '',
+    consent: false,
+    website: '',
   });
+  const submissionId = useRef(createSubmissionId());
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -67,8 +85,13 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox'
+        ? (e.target as HTMLInputElement).checked
+        : value,
+    }));
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -89,11 +112,12 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
     // Validate all fields
     const newErrors: FormErrors = {};
     (Object.keys(formData) as Array<keyof FormData>).forEach((key) => {
-      if (key !== 'interestedIn') {
-        const error = validateField(key, formData[key]);
+      if (!['interestedIn', 'city', 'intent', 'budgetRange', 'preferredContactMethod', 'preferredCallTime', 'consent', 'website'].includes(key)) {
+        const error = validateField(key, String(formData[key]));
         if (error) newErrors[key as keyof FormErrors] = error;
       }
     });
+    if (!formData.consent) newErrors.consent = 'Please agree before submitting';
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -108,7 +132,12 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          ...getLeadAttribution(),
+          submissionId: submissionId.current,
+          formType: 'contact',
+        }),
       });
 
       const result = await response.json();
@@ -121,6 +150,7 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
 
       setIsSubmitting(false);
       setSubmitSuccess(true);
+      trackConversion('contact_submitted');
 
       // Reset form
       setFormData({
@@ -129,7 +159,15 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
         phone: '',
         interestedIn: 'general',
         message: '',
+        city: '',
+        intent: '',
+        budgetRange: '',
+        preferredContactMethod: 'phone',
+        preferredCallTime: '',
+        consent: false,
+        website: '',
       });
+      submissionId.current = createSubmissionId();
 
       // Hide success message after 5 seconds
       setTimeout(() => setSubmitSuccess(false), 5000);
@@ -158,6 +196,97 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
           Your Name *
         </label>
         {errors.name && <p className="absolute -bottom-5 left-1 text-xs text-red-500 font-medium">{errors.name}</p>}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+            City / Country
+          </label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            maxLength={120}
+            className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-forest-500 outline-none"
+          />
+        </div>
+        <div>
+          <label htmlFor="intent" className="block text-sm font-medium text-gray-700 mb-2">
+            Enquiry intent
+          </label>
+          <select
+            id="intent"
+            name="intent"
+            value={formData.intent}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-forest-500 outline-none"
+          >
+            <option value="">Select an option</option>
+            <option value="weekend_home">Weekend home</option>
+            <option value="farmland_ownership">Farmland ownership</option>
+            <option value="investment_research">Investment research</option>
+            <option value="nri_enquiry">NRI enquiry</option>
+            <option value="property_consultancy">Property consultancy</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="preferredContactMethod" className="block text-sm font-medium text-gray-700 mb-2">
+            Preferred contact method
+          </label>
+          <select
+            id="preferredContactMethod"
+            name="preferredContactMethod"
+            value={formData.preferredContactMethod}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-forest-500 outline-none"
+          >
+            <option value="phone">Phone</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="email">Email</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="preferredCallTime" className="block text-sm font-medium text-gray-700 mb-2">
+            Preferred contact time
+          </label>
+          <select
+            id="preferredCallTime"
+            name="preferredCallTime"
+            value={formData.preferredCallTime}
+            onChange={handleChange}
+            className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-forest-500 outline-none"
+          >
+            <option value="">Any time</option>
+            <option value="morning">Morning</option>
+            <option value="afternoon">Afternoon</option>
+            <option value="evening">Evening</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor="budgetRange" className="block text-sm font-medium text-gray-700 mb-2">
+          Budget range (optional)
+        </label>
+        <select
+          id="budgetRange"
+          name="budgetRange"
+          value={formData.budgetRange}
+          onChange={handleChange}
+          className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-forest-500 outline-none"
+        >
+          <option value="">Prefer not to say</option>
+          <option value="under_25_lakh">Under ₹25 lakh</option>
+          <option value="25_50_lakh">₹25–50 lakh</option>
+          <option value="50_lakh_plus">₹50 lakh+</option>
+        </select>
       </div>
 
       {/* Email */}
@@ -232,8 +361,37 @@ export function ContactForm({ defaultInterest = 'general' }: ContactFormProps) {
         {errors.message && <p className="absolute -bottom-5 left-1 text-xs text-red-500 font-medium">{errors.message}</p>}
       </div>
 
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          name="website"
+          value={formData.website}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
+      <div className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id="contact-consent"
+          name="consent"
+          checked={formData.consent}
+          onChange={handleChange}
+          required
+          className="mt-1 h-4 w-4 accent-forest-500"
+        />
+        <label htmlFor="contact-consent" className="text-sm text-gray-600">
+          I agree that Mother Properties may contact me about this enquiry. Read the{' '}
+          <a href="/privacy/" className="underline hover:text-forest-600">privacy policy</a>.
+        </label>
+      </div>
+      {errors.consent && <p className="text-sm text-red-600">{errors.consent}</p>}
+
       {/* Submit Button */}
-      <Button type="submit" variant="primary" size="lg" className="w-full">
+      <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting || !formData.consent}>
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </Button>
 

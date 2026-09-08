@@ -1,84 +1,83 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { createLead, escapeHtml, isHoneypotFilled } from '@/lib/leads';
+import {
+  BaseLeadPayload,
+  guardLeadRequest,
+  saveNotificationResult,
+  validateBaseLead,
+} from '@/lib/leadRequest';
+import { sendEmailWithRetry } from '@/lib/email';
 
-interface CatalogueDownloadRequest {
-  name: string;
-  email: string;
-  phone: string;
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
+  const blocked = guardLeadRequest(request);
+  if (blocked) return blocked;
+
   try {
-    const body: CatalogueDownloadRequest = await request.json();
-
-    // Validate input
-    if (!body.name || !body.email || !body.phone) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    const body = await request.json() as BaseLeadPayload;
+    if (isHoneypotFilled(body.website)) {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
+    const validationError = validateBaseLead(body);
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(body.email)) {
-      return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
-    }
-
-    // Log the request
-    console.log('Catalogue Download Request:', {
-      name: body.name,
-      email: body.email,
-      phone: body.phone,
-      timestamp: new Date().toISOString(),
+    const result = await createLead({
+      submissionId: body.submissionId,
+      name: body.name!,
+      email: body.email!,
+      phone: body.phone!,
+      city: body.city,
+      country: body.country,
+      intent: 'catalogue_download',
+      source: body.source || 'website',
+      landingPage: body.landingPage || '/projects/coffee-prince/',
+      utmSource: body.utmSource,
+      utmMedium: body.utmMedium,
+      utmCampaign: body.utmCampaign,
+      utmTerm: body.utmTerm,
+      utmContent: body.utmContent,
+      referrer: body.referrer,
+      formType: 'catalogue_download',
+      consentGiven: true,
     });
+    const lead = result.lead;
 
-    // Send email to Mother Properties
-    try {
-      await resend.emails.send({
-        from: 'Coffee Prince Catalogue <onboarding@resend.dev>',
-        to: 'motherpropertiesblr@gmail.com',
-        subject: `New Catalogue Download Request - ${body.name}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #1e5631; margin-bottom: 20px;">New Catalogue Download Request</h2>
-            
-            <div style="background-color: #f8f5f0; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-              <p style="margin: 10px 0;"><strong>Name:</strong> ${body.name}</p>
-              <p style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:${body.email}">${body.email}</a></p>
-              <p style="margin: 10px 0;"><strong>Phone:</strong> <a href="tel:${body.phone}">${body.phone}</a></p>
-              <p style="margin: 10px 0;"><strong>Request Time:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
-            </div>
-            
-            <p style="color: #666; font-size: 14px;">
-              This is an automated notification. The user requested to download the Coffee Prince Catalogue.
-              You may follow up with them for further information.
-            </p>
-          </div>
-        `,
+    if (result.created) {
+      const notificationEmail = process.env.LEAD_NOTIFICATION_EMAIL;
+      const adminResult = notificationEmail
+        ? await sendEmailWithRetry({
+            to: notificationEmail,
+            subject: `Coffee Prince catalogue request - ${lead.name}`,
+            text: `Lead ${lead.id}\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone}\nSource: ${lead.source}`,
+            html: `<h2>Catalogue request</h2><p>Lead ID: ${lead.id}</p><p><strong>Name:</strong> ${escapeHtml(lead.name)}</p><p><strong>Email:</strong> ${escapeHtml(lead.email)}</p><p><strong>Phone:</strong> ${escapeHtml(lead.phone)}</p><p><strong>Source:</strong> ${escapeHtml(lead.source)}</p>`,
+          })
+        : { sent: false, attempts: 0, error: 'Lead notification recipient is not configured' };
+      await saveNotificationResult(lead, adminResult);
+
+      const catalogueUrl =
+        'https://www.motherproperties.net/images/Coffee_Prince_Catalog_Mother_Properties.pdf';
+      await sendEmailWithRetry({
+        to: lead.email,
+        subject: 'Your Coffee Prince catalogue',
+        text: `Dear ${lead.name},\n\nDownload the Coffee Prince catalogue: ${catalogueUrl}\n\nProject details and availability should be independently confirmed before purchase.\n\nMother Properties`,
+        html: `<p>Dear ${escapeHtml(lead.name)},</p><p><a href='${catalogueUrl}'>Download the Coffee Prince catalogue</a>.</p><p>Project details and availability should be independently confirmed before purchase.</p><p>Mother Properties</p>`,
       });
-
-      console.log(`Email sent to Mother Properties for user: ${body.name}`);
-    } catch (emailError) {
-      console.error('Email sending error:', emailError);
-      // Don't fail the request if email fails - the download already happened
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Catalogue download request received. Check your email for confirmation.',
-        data: {
-          name: body.name,
-          email: body.email,
-          timestamp: new Date().toISOString(),
-        },
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      success: true,
+      duplicate: !result.created,
+      leadId: lead.id,
+      catalogueUrl: '/images/Coffee_Prince_Catalog_Mother_Properties.pdf',
+      message: 'Your catalogue request has been recorded.',
+    });
   } catch (error) {
-    console.error('Catalogue download error:', error);
+    console.error('[CATALOGUE] Request failed:', error);
     return NextResponse.json(
-      { error: 'Internal server error. Please try again later.' },
+      { error: 'We could not record your request. Please call or WhatsApp us.' },
       { status: 500 }
     );
   }

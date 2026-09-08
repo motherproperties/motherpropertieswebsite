@@ -17,7 +17,9 @@ export const metadata: Metadata = {
     title: 'Contact Mother Properties',
     description: 'Get in touch with Mother Properties for farmland investment inquiries and project information.',
     images: ['/images/hero.jpg'],
+    url: '/contact/',
   },
+  alternates: { canonical: '/contact/' },
 };
 
 export default function ContactPage() {
