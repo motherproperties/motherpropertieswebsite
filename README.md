@@ -63,5 +63,28 @@ This project is configured for seamless deployment on **Netlify**.
 2.  The build command `npm run build` will automatically be detected.
 3.  The `netlify.toml` file is set up to allow the Next.js Runtime to handle SSR/ISR functions automatically.
 
+### Lead storage and email
+
+Production leads use the site-wide Netlify Blobs store
+`mother-properties-leads`. Local Next.js development uses `.data/leads`
+only for local verification.
+
+Configure the values listed in `.env.example` in Netlify. Email delivery
+requires a verified `RESEND_FROM_EMAIL`; there is no hardcoded recipient.
+The token-protected CSV export is `GET /api/admin/leads/export/` with an
+`Authorization: Bearer <LEADS_EXPORT_TOKEN>` header.
+
+The restricted lead inbox is available at `/admin/leads/`. It uses the same
+bearer token, shows funnel totals and supports status updates. The public
+`/api/health/` endpoint is suitable for an external uptime monitor.
+
+### Analytics and search verification
+
+Set `NEXT_PUBLIC_GA4_MEASUREMENT_ID` to enable the analytics option. Google
+Analytics is not loaded until a visitor explicitly chooses “Allow analytics”;
+only page paths and named conversion actions are sent. Set
+`NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` to publish the Search Console
+verification meta tag.
+
 ---
 Designed by [Samarth Viswanath](https://samarthv.me) | © 2024 Mother Properties
