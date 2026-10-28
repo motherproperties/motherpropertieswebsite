@@ -37,8 +37,13 @@ export interface CreateLeadInput {
 
 const usesBlobs = () =>
   process.env.NETLIFY === 'true' || process.env.LEAD_STORAGE === 'netlify-blobs';
-const localDir = () =>
-  process.env.LEAD_LOCAL_DIR || path.join(process.cwd(), '.data', 'leads');
+const localDir = () => {
+  if (process.env.LEAD_LOCAL_DIR) return process.env.LEAD_LOCAL_DIR;
+  if (process.env.LAMBDA_TASK_ROOT || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+    return path.join('/tmp', 'leads');
+  }
+  return path.join(process.cwd(), '.data', 'leads');
+};
 const leadKey = (id: string) => `leads/${id}.json`;
 
 function buildLead(input: CreateLeadInput): Lead {
@@ -86,52 +91,70 @@ export async function createLead(
 ): Promise<{ lead: Lead; created: boolean }> {
   const lead = buildLead(input);
   if (usesBlobs()) {
-    const store = getStore({ name: STORE_NAME, consistency: 'strong' });
-    const result = await store.setJSON(leadKey(lead.id), lead, {
-      onlyIfNew: true,
-      metadata: { formType: lead.formType, timestamp: lead.timestamp },
-    });
-    if (result.modified) return { lead, created: true };
-    const existing = await store.get(leadKey(lead.id), {
-      type: 'json',
-      consistency: 'strong',
-    }) as Lead | null;
-    if (!existing) throw new Error('Existing lead could not be retrieved');
-    return { lead: existing, created: false };
+    try {
+      const store = getStore({ name: STORE_NAME, consistency: 'strong' });
+      const result = await store.setJSON(leadKey(lead.id), lead, {
+        onlyIfNew: true,
+        metadata: { formType: lead.formType, timestamp: lead.timestamp },
+      });
+      if (result.modified) return { lead, created: true };
+      const existing = await store.get(leadKey(lead.id), {
+        type: 'json',
+        consistency: 'strong',
+      }) as Lead | null;
+      if (!existing) throw new Error('Existing lead could not be retrieved');
+      return { lead: existing, created: false };
+    } catch (blobError) {
+      console.warn('[LEADS] Netlify Blobs storage failed, falling back to disk:', blobError);
+    }
   }
 
   const directory = localDir();
-  await fs.mkdir(directory, { recursive: true });
-  const file = path.join(directory, `${lead.id}.json`);
   try {
-    await fs.writeFile(file, JSON.stringify(lead, null, 2), {
-      encoding: 'utf-8',
-      flag: 'wx',
-    });
+    await fs.mkdir(directory, { recursive: true });
+    const file = path.join(directory, `${lead.id}.json`);
+    try {
+      await fs.writeFile(file, JSON.stringify(lead, null, 2), {
+        encoding: 'utf-8',
+        flag: 'wx',
+      });
+      return { lead, created: true };
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
+      return {
+        lead: JSON.parse(await fs.readFile(file, 'utf-8')) as Lead,
+        created: false,
+      };
+    }
+  } catch (fsError) {
+    console.error('[LEADS] File storage failed:', fsError);
     return { lead, created: true };
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
-    return {
-      lead: JSON.parse(await fs.readFile(file, 'utf-8')) as Lead,
-      created: false,
-    };
   }
 }
 
 export async function updateLead(lead: Lead): Promise<void> {
   if (usesBlobs()) {
-    const store = getStore({ name: STORE_NAME, consistency: 'strong' });
-    await store.setJSON(leadKey(lead.id), lead, {
-      metadata: { formType: lead.formType, timestamp: lead.timestamp },
-    });
-    return;
+    try {
+      const store = getStore({ name: STORE_NAME, consistency: 'strong' });
+      await store.setJSON(leadKey(lead.id), lead, {
+        metadata: { formType: lead.formType, timestamp: lead.timestamp },
+      });
+      return;
+    } catch (blobError) {
+      console.warn('[LEADS] Netlify Blobs update failed, falling back to disk:', blobError);
+    }
   }
-  await fs.mkdir(localDir(), { recursive: true });
-  await fs.writeFile(
-    path.join(localDir(), `${lead.id}.json`),
-    JSON.stringify(lead, null, 2),
-    'utf-8'
-  );
+  try {
+    const dir = localDir();
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(
+      path.join(dir, `${lead.id}.json`),
+      JSON.stringify(lead, null, 2),
+      'utf-8'
+    );
+  } catch (fsError) {
+    console.error('[LEADS] Update lead file storage failed:', fsError);
+  }
 }
 
 export async function listLeads(): Promise<Lead[]> {

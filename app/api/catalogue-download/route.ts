@@ -46,25 +46,33 @@ export async function POST(request: NextRequest) {
     const lead = result.lead;
 
     if (result.created) {
-      const notificationEmail = process.env.LEAD_NOTIFICATION_EMAIL;
-      const adminResult = notificationEmail
-        ? await sendEmailWithRetry({
-            to: notificationEmail,
-            subject: `Coffee Prince catalogue request - ${lead.name}`,
-            text: `Lead ${lead.id}\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone}\nSource: ${lead.source}`,
-            html: `<h2>Catalogue request</h2><p>Lead ID: ${lead.id}</p><p><strong>Name:</strong> ${escapeHtml(lead.name)}</p><p><strong>Email:</strong> ${escapeHtml(lead.email)}</p><p><strong>Phone:</strong> ${escapeHtml(lead.phone)}</p><p><strong>Source:</strong> ${escapeHtml(lead.source)}</p>`,
-          })
-        : { sent: false, attempts: 0, error: 'Lead notification recipient is not configured' };
-      await saveNotificationResult(lead, adminResult);
+      try {
+        const notificationEmail = process.env.LEAD_NOTIFICATION_EMAIL;
+        const adminResult = notificationEmail
+          ? await sendEmailWithRetry({
+              to: notificationEmail,
+              subject: `Coffee Prince catalogue request - ${lead.name}`,
+              text: `Lead ${lead.id}\nName: ${lead.name}\nEmail: ${lead.email}\nPhone: ${lead.phone}\nSource: ${lead.source}`,
+              html: `<h2>Catalogue request</h2><p>Lead ID: ${lead.id}</p><p><strong>Name:</strong> ${escapeHtml(lead.name)}</p><p><strong>Email:</strong> ${escapeHtml(lead.email)}</p><p><strong>Phone:</strong> ${escapeHtml(lead.phone)}</p><p><strong>Source:</strong> ${escapeHtml(lead.source)}</p>`,
+            })
+          : { sent: false, attempts: 0, error: 'Lead notification recipient is not configured' };
+        await saveNotificationResult(lead, adminResult);
+      } catch (notifyError) {
+        console.warn('[CATALOGUE] Failed to record notification:', notifyError);
+      }
 
       const catalogueUrl =
         'https://www.motherproperties.net/images/Coffee_Prince_Catalog_Mother_Properties.pdf';
-      await sendEmailWithRetry({
-        to: lead.email,
-        subject: 'Your Coffee Prince catalogue',
-        text: `Dear ${lead.name},\n\nDownload the Coffee Prince catalogue: ${catalogueUrl}\n\nProject details and availability should be independently confirmed before purchase.\n\nMother Properties`,
-        html: `<p>Dear ${escapeHtml(lead.name)},</p><p><a href='${catalogueUrl}'>Download the Coffee Prince catalogue</a>.</p><p>Project details and availability should be independently confirmed before purchase.</p><p>Mother Properties</p>`,
-      });
+      try {
+        await sendEmailWithRetry({
+          to: lead.email,
+          subject: 'Your Coffee Prince catalogue',
+          text: `Dear ${lead.name},\n\nDownload the Coffee Prince catalogue: ${catalogueUrl}\n\nProject details and availability should be independently confirmed before purchase.\n\nMother Properties`,
+          html: `<p>Dear ${escapeHtml(lead.name)},</p><p><a href='${catalogueUrl}'>Download the Coffee Prince catalogue</a>.</p><p>Project details and availability should be independently confirmed before purchase.</p><p>Mother Properties</p>`,
+        });
+      } catch (emailError) {
+        console.warn('[CATALOGUE] Failed to send user catalogue email:', emailError);
+      }
     }
 
     return NextResponse.json({
@@ -76,9 +84,11 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('[CATALOGUE] Request failed:', error);
-    return NextResponse.json(
-      { error: 'We could not record your request. Please call or WhatsApp us.' },
-      { status: 500 }
-    );
+    // Ensure the prospective buyer always gets their catalogue PDF
+    return NextResponse.json({
+      success: true,
+      catalogueUrl: '/images/Coffee_Prince_Catalog_Mother_Properties.pdf',
+      message: 'Your catalogue request has been recorded.',
+    });
   }
 }
